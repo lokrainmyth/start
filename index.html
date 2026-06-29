@@ -1,132 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Io — First Light</title>
 
-    <title>Io — Lo.Krain</title>
-    <meta name="description" content="Io — the final chapter of a fifteen-year journey through night to dawn.">
-
-    <meta property="og:title" content="Io — Lo.Krain">
-    <meta property="og:description" content="Listen from beginning to end. The path continues beyond the last track.">
-    <meta property="og:image" content="social-cover.jpg">
-
-    <link rel="icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="manifest" href="site.webmanifest">
-
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="./css/theme.css"/>
+  <link rel="stylesheet" href="./css/animations.css"/>
+  <link rel="stylesheet" href="./css/main.css"/>
+  <link rel="stylesheet" href="./css/responsive.css"/>
 </head>
 
-<body>
+<body class="state-night">
 
-<div id="app">
+  <!-- BACKGROUND LAYERS -->
+  <div class="bg-layer bg-gradient"></div>
+  <div class="bg-layer bg-texture"></div>
+  <div class="bg-layer bg-light"></div>
 
-    <header class="topbar">
+  <!-- MIRROR WORD SYSTEM -->
+  <div class="mirror-layer">
+    <div class="mirror-word">PATH</div>
+    <div class="mirror-word">NIGHT</div>
+    <div class="mirror-word">DAWN</div>
+    <div class="mirror-word">IO</div>
+    <div class="mirror-word">HOME</div>
+  </div>
 
-        <button id="ruButton" class="lang active">RU</button>
+  <!-- MAIN APP WRAPPER -->
+  <div class="app" id="app">
 
-        <button id="enButton" class="lang">EN</button>
-
+    <!-- TOP STATUS BAR -->
+    <header class="top-bar">
+      <div class="project-title">Io — First Light</div>
+      <div class="state-indicator" id="stateIndicator">NIGHT</div>
     </header>
 
-    <main>
+    <!-- MAIN JOURNEY LAYOUT -->
+    <main class="journey-layout">
 
-        <section class="hero">
+      <!-- LEFT / TOP COLUMN -->
+      <section class="journey-column journey-left">
 
-            <h1 class="album-title">
-                Io
-            </h1>
+        <!-- TRACK PROGRESSION -->
+        <div class="track-path" id="trackPath">
 
-            <img
-                src="cover.jpeg"
-                alt="Io Album Cover"
-                class="cover"
-            >
+          <div class="track-item locked" data-track="0">
+            <div class="track-code">01</div>
+            <div class="track-title hidden">•••</div>
+            <div class="track-status">LOCKED</div>
+          </div>
 
-            <div class="album-meta">
+          <div class="track-item locked" data-track="1">
+            <div class="track-code">02</div>
+            <div class="track-title hidden">•••</div>
+            <div class="track-status">LOCKED</div>
+          </div>
 
-                <div class="meta-label" data-i18n="album">
-                    Album
-                </div>
+          <div class="track-item locked" data-track="2">
+            <div class="track-code">03</div>
+            <div class="track-title hidden">•••</div>
+            <div class="track-status">LOCKED</div>
+          </div>
 
-                <div class="meta-name">
-                    Io
-                </div>
+          <div class="track-item locked" data-track="3">
+            <div class="track-code">04</div>
+            <div class="track-title hidden">•••</div>
+            <div class="track-status">LOCKED</div>
+          </div>
 
-                <div class="meta-label" data-i18n="release">
-                    Release
-                </div>
+          <div class="track-item locked" data-track="4">
+            <div class="track-code">05</div>
+            <div class="track-title hidden">•••</div>
+            <div class="track-status">LOCKED</div>
+          </div>
 
-                <div class="meta-value">
-                    21 June 2026
-                </div>
+          <div class="track-item locked" data-track="5">
+            <div class="track-code">06</div>
+            <div class="track-title hidden">•••</div>
+            <div class="track-status">LOCKED</div>
+          </div>
 
-            </div>
+          <div class="track-item locked" data-track="6">
+            <div class="track-code">07</div>
+            <div class="track-title hidden">•••</div>
+            <div class="track-status">LOCKED</div>
+          </div>
 
-        </section>
+          <div class="track-item locked" data-track="7">
+            <div class="track-code">08</div>
+            <div class="track-title hidden">•••</div>
+            <div class="track-status">LOCKED</div>
+          </div>
 
-        <section class="intro">
+          <div class="track-item locked" data-track="8">
+            <div class="track-code">09</div>
+            <div class="track-title hidden">•••</div>
+            <div class="track-status">LOCKED</div>
+          </div>
 
-            <p data-i18n="intro1">
-                Io is the final chapter of a fifteen-year journey through night to dawn.
-            </p>
+          <div class="track-item locked" data-track="9">
+            <div class="track-code">10</div>
+            <div class="track-title hidden">•••</div>
+            <div class="track-status">LOCKED</div>
+          </div>
 
-            <p data-i18n="intro2">
-                Listen from beginning to end.
-            </p>
+        </div>
 
-            <p data-i18n="intro3">
-                The path continues beyond the last track.
-            </p>
+      </section>
 
-        </section>
+      <!-- RIGHT / BOTTOM COLUMN -->
+      <section class="journey-column journey-right">
 
-        <section class="artist">
+        <!-- CENTRAL VISUAL FIELD -->
+        <div class="core-visual" id="coreVisual">
+          <div class="light-core"></div>
+          <div class="pulse-ring"></div>
+          <div class="cover-glow"></div>
+        </div>
 
-            <img
-                src="artist.jpg"
-                alt="Lo.Krain"
-                class="artist-photo"
-            >
+        <!-- TRACK INFO -->
+        <div class="track-info">
+          <div class="track-number" id="trackNumber">00</div>
+          <div class="track-name" id="trackName">UNDEFINED</div>
+          <div class="track-duration" id="trackDuration">00:00</div>
+        </div>
 
-            <h2>
-                Lo.Krain
-            </h2>
+        <!-- CUSTOM PLAYER -->
+        <div class="player" id="player">
 
-            <div class="artist-label">
-                ARTIST
-            </div>
+          <div class="player-controls">
+            <button class="btn btn-play" id="playBtn">PLAY</button>
+            <button class="btn btn-pause" id="pauseBtn">PAUSE</button>
+            <button class="btn btn-skip" id="skipBtn">SKIP</button>
+          </div>
 
-        </section>
+          <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
 
-        <section id="playerSection">
+          <div class="progress-meta">
+            <span id="currentTime">00:00</span>
+            <span class="divider">/</span>
+            <span id="totalTime">00:00</span>
+          </div>
 
-            <!-- Player will be generated here -->
+        </div>
 
-        </section>
+        <!-- GROWING INTERFACE BLOCKS -->
+        <div class="meta-sections">
 
-        <section id="unlockSection">
+          <section class="meta about locked" id="aboutSection">
+            <h2>About</h2>
+            <p class="fade-text">•••</p>
+          </section>
 
-            <!-- Myth appears here -->
+          <section class="meta lyrics locked" id="lyricsSection">
+            <h2>Lyrics</h2>
+            <p class="fade-text">•••</p>
+          </section>
 
-        </section>
+          <section class="meta communication locked" id="communicationSection">
+            <h2>Communication</h2>
+            <p class="fade-text">•••</p>
+          </section>
+
+        </div>
+
+      </section>
 
     </main>
 
-</div>
+    <!-- FINAL MYTH LAYER -->
+    <section class="myth-layer hidden" id="mythLayer">
+      <div class="myth-question">Go Deeper?</div>
+      <button class="btn myth-btn" id="mythBtn">ENTER</button>
+    </section>
 
-<div id="toast"></div>
+  </div>
 
-<script src="js/storage.js"></script>
-<script src="js/translations.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/player.js"></script>
-<script src="js/journey.js"></script>
-<script src="js/app.js"></script>
+  <!-- HIDDEN AUDIO ENGINE -->
+  <audio id="audioEngine" preload="auto"></audio>
+
+  <!-- SKIP CONFIRM MODAL -->
+  <div class="modal hidden" id="skipModal">
+    <div class="modal-content">
+      <div class="modal-text">Skip this moment?</div>
+      <div class="modal-actions">
+        <button class="btn danger" id="confirmSkip">YES</button>
+        <button class="btn" id="cancelSkip">NO</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WARNING MODAL -->
+  <div class="modal hidden" id="warningModal">
+    <div class="modal-content">
+      <div class="modal-text">This path is not completed</div>
+      <div class="modal-subtext">Skipped tracks will remain marked as unfinished</div>
+      <div class="modal-actions">
+        <button class="btn" id="closeWarning">CONTINUE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="./js/storage.js"></script>
+  <script src="./js/translations.js"></script>
+  <script src="./js/player.js"></script>
+  <script src="./js/journey.js"></script>
+  <script src="./js/app.js"></script>
 
 </body>
 </html>
