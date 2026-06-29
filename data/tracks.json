@@ -1,82 +1,82 @@
-{
-  "album": "Io",
-  "artist": "Lo.Krain",
-  "release": "2026-06-21",
-
-  "mode": "linear_lock",
-
-  "tracks": [
-    {
-      "id": 1,
-      "file": "01-put.mp3",
-      "title": "PATH",
-      "duration": "2:50",
-      "locked": false,
-      "intro": true
-    },
-    {
-      "id": 2,
-      "file": "02-kofe-s-soboy.mp3",
-      "title": "K0F3",
-      "duration": "2:17",
-      "locked": true
-    },
-    {
-      "id": 3,
-      "file": "03-drug.mp3",
-      "title": "DR-UG",
-      "duration": "2:49",
-      "locked": true
-    },
-    {
-      "id": 4,
-      "file": "04-nebo-temnoe.mp3",
-      "title": "SKY::NULL",
-      "duration": "2:55",
-      "locked": true
-    },
-    {
-      "id": 5,
-      "file": "05-dogola.mp3",
-      "title": "VOID",
-      "duration": "2:10",
-      "locked": true
-    },
-    {
-      "id": 6,
-      "file": "06-grustnaya-muzyka.mp3",
-      "title": "SOUND_ERR",
-      "duration": "3:03",
-      "locked": true
-    },
-    {
-      "id": 7,
-      "file": "07-dekabr.mp3",
-      "title": "DEC_12",
-      "duration": "3:14",
-      "locked": true
-    },
-    {
-      "id": 8,
-      "file": "08-17.mp3",
-      "title": "17",
-      "duration": "3:00",
-      "locked": true
-    },
-    {
-      "id": 9,
-      "file": "09-krasivo.mp3",
-      "title": "BEAUTY//GLITCH",
-      "duration": "3:30",
-      "locked": true
-    },
-    {
-      "id": 10,
-      "file": "10-rassvet.mp3",
-      "title": "DAWN",
-      "duration": "3:36",
-      "locked": true,
-      "final": true
-    }
-  ]
-}
+[
+  {
+    "index": 0,
+    "file": "01-put.mp3",
+    "title": "PUT",
+    "duration": "00:00",
+    "state": "locked",
+    "unlock": "night"
+  },
+  {
+    "index": 1,
+    "file": "02-kofe-s-soboy.mp3",
+    "title": "COFFEE TO GO",
+    "duration": "00:00",
+    "state": "locked",
+    "unlock": "night"
+  },
+  {
+    "index": 2,
+    "file": "03-drug.mp3",
+    "title": "DRUG",
+    "duration": "00:00",
+    "state": "locked",
+    "unlock": "deep-night"
+  },
+  {
+    "index": 3,
+    "file": "04-nebo-temnoe.mp3",
+    "title": "DARK SKY",
+    "duration": "00:00",
+    "state": "locked",
+    "unlock": "deep-night"
+  },
+  {
+    "index": 4,
+    "file": "05-dogola.mp3",
+    "title": "NAKED",
+    "duration": "00:00",
+    "state": "locked",
+    "unlock": "pre-dawn"
+  },
+  {
+    "index": 5,
+    "file": "06-grustnaya-muzyka.mp3",
+    "title": "SAD MUSIC",
+    "duration": "00:00",
+    "state": "locked",
+    "unlock": "pre-dawn"
+  },
+  {
+    "index": 6,
+    "file": "07-dekabr.mp3",
+    "title": "DECEMBER",
+    "duration": "00:00",
+    "state": "locked",
+    "unlock": "dawn"
+  },
+  {
+    "index": 7,
+    "file": "08-17.mp3",
+    "title": "17",
+    "duration": "00:00",
+    "state": "locked",
+    "unlock": "dawn"
+  },
+  {
+    "index": 8,
+    "file": "09-krasivo.mp3",
+    "title": "BEAUTIFUL",
+    "duration": "00:00",
+    "state": "locked",
+    "unlock": "morning"
+  },
+  {
+    "index": 9,
+    "file": "10-rassvet.mp3",
+    "title": "DAWN",
+    "duration": "00:00",
+    "state": "locked",
+    "unlock": "morning"
+  }
+]
