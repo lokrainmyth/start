@@ -2,6 +2,11 @@ const audio = document.getElementById("audio");
 const playBtn = document.getElementById("play");
 const skipBtn = document.getElementById("skip");
 const now = document.getElementById("now");
+this.world = new IoWorld(this.player, this.storage);
+this.world.init(this.tracks);
+
+this.player.onTrackChange = null;
+this.player.onFinish = null;
 
 let tracks = [
 "01-put.mp3",
@@ -15,7 +20,7 @@ let tracks = [
 "09-krasivo.mp3",
 "10-rassvet.mp3"
 ];
-
+this.world.init(this.tracks);
 let index = 0;
 
 function loadTrack(i){
