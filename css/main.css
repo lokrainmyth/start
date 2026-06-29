@@ -232,3 +232,34 @@ body {
 button, .track {
   touch-action: manipulation;
 }
+.entry {
+  position: fixed;
+  inset: 0;
+  background: #0b0b0c;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  z-index: 999;
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  cursor: pointer;
+}
+
+.entry-sub {
+  opacity: 0.5;
+  font-size: 12px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* критично для мобилок */
+body {
+  touch-action: manipulation;
+}
