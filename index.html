@@ -9,7 +9,14 @@
 
 <body>
 
-<div class="layout">
+<!-- ===== ENTRY SCREEN ===== -->
+<div id="entry" class="entry">
+  <div class="entry-title">LO.KRAIN — IO</div>
+  <div class="entry-sub">press enter</div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div class="layout hidden" id="app">
 
   <!-- LEFT -->
   <div class="hero">
@@ -32,16 +39,35 @@
       </div>
     </div>
 
+    <!-- PLAYER -->
+    <div class="player">
+
+      <div class="controls">
+        <button id="playBtn">PLAY</button>
+        <button id="pauseBtn">PAUSE</button>
+        <button id="skipBtn">SKIP</button>
+      </div>
+
+      <div class="progress">
+        <div id="progressBar"></div>
+      </div>
+
+      <div class="time">
+        <span id="currentTime">00:00</span> / <span id="totalTime">00:00</span>
+      </div>
+
+    </div>
+
   </div>
 
   <!-- RIGHT -->
   <div>
-
     <div class="playlist" id="playlist"></div>
-
   </div>
 
 </div>
+
+<audio id="audioEngine"></audio>
 
 <script src="./js/storage.js"></script>
 <script src="./js/player.js"></script>
