@@ -136,3 +136,26 @@ body::after {
     font-size: 26px;
   }
 }
+
+.entry {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #0b0b0c;
+  color: white;
+  z-index: 10;
+  letter-spacing: 0.3em;
+}
+
+.entry-sub {
+  opacity: 0.4;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.hidden {
+  display: none;
+}
