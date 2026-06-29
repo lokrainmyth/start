@@ -2,6 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Lo.Krain - Io</title>
 
   <link rel="stylesheet" href="./css/main.css">
@@ -9,16 +11,15 @@
 
 <body>
 
-<!-- ===== ENTRY SCREEN ===== -->
+<!-- ENTRY -->
 <div id="entry" class="entry">
   <div class="entry-title">LO.KRAIN — IO</div>
-  <div class="entry-sub">press enter</div>
+  <div class="entry-sub">tap / click / enter</div>
 </div>
 
-<!-- ===== MAIN APP ===== -->
-<div class="layout hidden" id="app">
+<!-- APP -->
+<div id="app" class="layout hidden">
 
-  <!-- LEFT -->
   <div class="hero">
 
     <img class="album-cover" src="./cover.jpeg">
@@ -28,25 +29,19 @@
 
     <div class="meta">
       Release June 21, 2026<br>
-      Artist: Lo.Krain
+      Artist Lo.Krain
     </div>
 
     <div class="artist-block">
       <img class="artist-avatar" src="./artist.jpg">
-      <div class="meta">
-        Lo.Krain<br>
-        Exile Sound Project
-      </div>
+      <div class="meta">Exile Sound Project</div>
     </div>
 
     <!-- PLAYER -->
     <div class="player">
-
-      <div class="controls">
-        <button id="playBtn">PLAY</button>
-        <button id="pauseBtn">PAUSE</button>
-        <button id="skipBtn">SKIP</button>
-      </div>
+      <button id="playBtn">PLAY</button>
+      <button id="pauseBtn">PAUSE</button>
+      <button id="skipBtn">SKIP</button>
 
       <div class="progress">
         <div id="progressBar"></div>
@@ -55,15 +50,11 @@
       <div class="time">
         <span id="currentTime">00:00</span> / <span id="totalTime">00:00</span>
       </div>
-
     </div>
 
   </div>
 
-  <!-- RIGHT -->
-  <div>
-    <div class="playlist" id="playlist"></div>
-  </div>
+  <div class="playlist" id="playlist"></div>
 
 </div>
 
