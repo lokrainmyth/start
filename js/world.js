@@ -1,9 +1,11 @@
 class IoWorld {
-  constructor(player) {
+  constructor(player, storage) {
     this.player = player;
+    this.storage = storage;
+
     this.playlist = document.getElementById("playlist");
 
-    this.letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    this.scrambleIntervals = new Map();
   }
 
   init(tracks) {
@@ -16,46 +18,72 @@ class IoWorld {
 
     this.tracks.forEach((t, i) => {
       const el = document.createElement("div");
-      el.className = "track";
+      el.className = "track locked";
       el.dataset.index = i;
 
-      el.textContent = this.mask(t.title, i);
+      el.innerHTML = this.getScrambledTitle(i);
 
-      el.onclick = () => this.play(i, el);
+      el.onclick = () => this.onClick(i, el);
 
       this.playlist.appendChild(el);
 
-      this.glitch(el, i);
+      this.startScramble(i, el);
     });
   }
 
-  mask(text, seed) {
-    if (seed === 0) return text;
+  getScrambledTitle(i) {
+    const completed = this.storage.getCompleted();
 
+    if (completed.includes(i)) {
+      return `${i + 1}. ${this.tracks[i].title}`;
+    }
+
+    return `${i + 1}. ${this.scramble(this.tracks[i].title)}`;
+  }
+
+  scramble(text) {
+    const chars = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ0123456789";
     return text
       .split("")
-      .map(c => (Math.random() > 0.7 ? c : this.letters[Math.floor(Math.random()*this.letters.length)]))
+      .map((c) => {
+        if (Math.random() < 0.3) return c;
+        if (c === " ") return " ";
+        return chars[Math.floor(Math.random() * chars.length)];
+      })
       .join("");
   }
 
-  glitch(el, i) {
-    if (i === 0) return;
+  startScramble(i, el) {
+    const interval = setInterval(() => {
+      const completed = this.storage.getCompleted();
 
-    setInterval(() => {
-      if (this.player.currentIndex >= i) return;
+      if (completed.includes(i)) {
+        clearInterval(interval);
+        el.innerHTML = `${i + 1}. ${this.tracks[i].title}`;
+        return;
+      }
 
-      el.textContent = this.mask(this.tracks[i].title, i);
+      el.innerHTML = `${i + 1}. ${this.scramble(this.tracks[i].title)}`;
     }, 120);
+
+    this.scrambleIntervals.set(i, interval);
   }
 
-  play(i, el) {
+  onClick(i, el) {
     if (i > this.player.currentIndex) return;
 
+    // фиксируем трек
     this.player.currentIndex = i;
     this.player.loadTrack(i);
     this.player.play();
 
+    this.storage.saveIndex(i);
+    this.storage.saveCompleted(i);
+
+    el.innerHTML = `${i + 1}. ${this.tracks[i].title}`;
     el.classList.add("revealed");
-    el.textContent = this.tracks[i].title;
+
+    const interval = this.scrambleIntervals.get(i);
+    if (interval) clearInterval(interval);
   }
 }
