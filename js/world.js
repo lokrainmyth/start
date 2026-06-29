@@ -28,23 +28,24 @@ class IoWorld {
   }
 
   // ===== AIRPORT STYLE SCRAMBLE =====
-  scrambleText(text, progress = 0) {
-    const chars = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩ";
+ scrambleText(text, progress = 0) {
+  const chars = text.split("");
 
-    return text
-      .split("")
-      .map((c, i) => {
-        if (c === " ") return " ";
+  return chars
+    .map((c, i) => {
+      if (c === " ") return " ";
 
-        // постепенно “фиксируем” буквы слева направо
-        if (i < progress) return c;
+      // уже открытая часть
+      if (i < progress) return c;
 
-        return Math.random() > 0.5
-          ? "_"
-          : chars[Math.floor(Math.random() * chars.length)];
-      })
-      .join("");
-  }
+      // скрытие через _
+      // 2–3 подчеркивания в зависимости от длины слова
+      const density = text.length > 6 ? 3 : 2;
+
+      return Math.random() < 0.7 ? "_" : "_".repeat(density)[0];
+    })
+    .join("");
+}
 
   startScramble(i, el) {
     let step = 0;
