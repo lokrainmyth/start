@@ -2,10 +2,8 @@ class IoWorld {
   constructor(player, storage) {
     this.player = player;
     this.storage = storage;
-
     this.playlist = document.getElementById("playlist");
-
-    this.scrambleIntervals = new Map();
+    this.intervals = new Map();
   }
 
   init(tracks) {
@@ -21,9 +19,7 @@ class IoWorld {
       el.className = "track locked";
       el.dataset.index = i;
 
-      el.innerHTML = this.getScrambledTitle(i);
-
-      el.onclick = () => this.onClick(i, el);
+      el.onclick = () => this.play(i, el);
 
       this.playlist.appendChild(el);
 
@@ -31,48 +27,49 @@ class IoWorld {
     });
   }
 
-  getScrambledTitle(i) {
-    const completed = this.storage.getCompleted();
+  // ===== AIRPORT STYLE SCRAMBLE =====
+  scrambleText(text, progress = 0) {
+    const chars = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩ";
 
-    if (completed.includes(i)) {
-      return `${i + 1}. ${this.tracks[i].title}`;
-    }
-
-    return `${i + 1}. ${this.scramble(this.tracks[i].title)}`;
-  }
-
-  scramble(text) {
-    const chars = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ0123456789";
     return text
       .split("")
-      .map((c) => {
-        if (Math.random() < 0.3) return c;
+      .map((c, i) => {
         if (c === " ") return " ";
-        return chars[Math.floor(Math.random() * chars.length)];
+
+        // постепенно “фиксируем” буквы слева направо
+        if (i < progress) return c;
+
+        return Math.random() > 0.5
+          ? "_"
+          : chars[Math.floor(Math.random() * chars.length)];
       })
       .join("");
   }
 
   startScramble(i, el) {
+    let step = 0;
+
     const interval = setInterval(() => {
       const completed = this.storage.getCompleted();
+      const title = this.tracks[i].title;
 
       if (completed.includes(i)) {
         clearInterval(interval);
-        el.innerHTML = `${i + 1}. ${this.tracks[i].title}`;
+        el.innerHTML = `${i + 1}. ${title}`;
         return;
       }
 
-      el.innerHTML = `${i + 1}. ${this.scramble(this.tracks[i].title)}`;
-    }, 120);
+      step = (step + 1) % (title.length + 2);
 
-    this.scrambleIntervals.set(i, interval);
+      el.innerHTML = `${i + 1}. ${this.scrambleText(title, step)}`;
+    }, 1000); // ← ВАЖНО: 1 раз в секунду
+
+    this.intervals.set(i, interval);
   }
 
-  onClick(i, el) {
+  play(i, el) {
     if (i > this.player.currentIndex) return;
 
-    // фиксируем трек
     this.player.currentIndex = i;
     this.player.loadTrack(i);
     this.player.play();
@@ -80,10 +77,10 @@ class IoWorld {
     this.storage.saveIndex(i);
     this.storage.saveCompleted(i);
 
+    const interval = this.intervals.get(i);
+    if (interval) clearInterval(interval);
+
     el.innerHTML = `${i + 1}. ${this.tracks[i].title}`;
     el.classList.add("revealed");
-
-    const interval = this.scrambleIntervals.get(i);
-    if (interval) clearInterval(interval);
   }
 }
