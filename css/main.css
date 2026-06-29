@@ -1,163 +1,65 @@
-/* =========================
-   main.css — Io First Light
-   Core spatial UI layer
-   ========================= */
-
-/* GLOBAL TYPOGRAPHY SCALE */
-
-h1, h2, h3, h4 {
-  margin: 0;
-  font-weight: 300;
-  letter-spacing: 0.2em;
+body{
+margin:0;
+font-family:system-ui;
+background:#151310;
+color:#e7e0d3;
 }
 
-p {
-  margin: 0;
-  line-height: 1.6;
+.page{
+max-width:780px;
+margin:auto;
+padding:40px 20px;
 }
 
-/* APP LAYOUT REFINEMENTS */
-
-.journey-layout {
-  min-height: 70vh;
+.hero{
+text-align:center;
 }
 
-/* LEFT COLUMN DEPTH */
-
-.journey-left {
-  padding-right: var(--space-4);
-  border-right: 1px solid rgba(255,255,255,0.04);
+.cover{
+width:240px;
+margin:20px auto;
+filter:brightness(.7);
+transition:2s;
 }
 
-/* RIGHT COLUMN SPACE */
-
-.journey-right {
-  padding-left: var(--space-4);
+.artist{
+margin-top:10px;
+opacity:.8;
 }
 
-/* TRACK STATES */
-
-.track-item {
-  cursor: pointer;
+.meta{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+opacity:.6;
+margin-top:10px;
 }
 
-.track-item.completed {
-  opacity: 1;
-  border-color: rgba(214, 162, 122, 0.3);
+.track{
+padding:10px 0;
+font-family:monospace;
+cursor:pointer;
 }
 
-.track-item.skipped {
-  opacity: 0.5;
-  border-color: rgba(120, 120, 120, 0.2);
+.track.locked{
+opacity:.3;
 }
 
-/* CORE VISUAL EVOLUTION */
-
-.core-visual {
-  transition: all var(--t-slow);
+.player{
+text-align:center;
 }
 
-body.state-night .core-visual {
-  transform: scale(0.9);
+.controls button{
+margin:10px;
+padding:10px 16px;
+background:none;
+border:1px solid #555;
+color:white;
 }
 
-body.state-pre-dawn .core-visual {
-  transform: scale(1.05);
-}
-
-body.state-dawn .core-visual {
-  transform: scale(1.15);
-}
-
-/* PLAYER EVOLUTION */
-
-.player {
-  backdrop-filter: blur(10px);
-  background: rgba(255,255,255,0.02);
-}
-
-/* BUTTON STATES */
-
-.btn:active {
-  transform: scale(0.98);
-}
-
-.btn.btn-play {
-  border-color: rgba(214, 162, 122, 0.4);
-}
-
-.btn.btn-pause {
-  opacity: 0.8;
-}
-
-/* META REVEAL SYSTEM */
-
-.meta.about,
-.meta.lyrics,
-.meta.communication {
-  transition: all var(--t-slow);
-}
-
-.meta.revealed {
-  opacity: 0.9;
-  filter: blur(0);
-}
-
-/* MIRROR WORD ANIMATION BASE */
-
-.mirror-word {
-  animation: floatWord 18s infinite ease-in-out;
-}
-
-@keyframes floatWord {
-  0% { transform: translateY(0px); opacity: 0.06; }
-  50% { transform: translateY(-20px); opacity: 0.12; }
-  100% { transform: translateY(0px); opacity: 0.06; }
-}
-
-/* MODAL IMPROVEMENTS */
-
-.modal.hidden {
-  display: none;
-}
-
-.modal-text {
-  font-size: 14px;
-  letter-spacing: 0.1em;
-  margin-bottom: var(--space-3);
-}
-
-.modal-subtext {
-  font-size: 12px;
-  opacity: 0.6;
-  margin-bottom: var(--space-4);
-}
-
-/* MYTH LAYER FINAL STATE */
-
-.myth-layer.hidden {
-  display: none;
-}
-
-.myth-btn {
-  padding: 12px 20px;
-  letter-spacing: 0.2em;
-}
-
-/* RESPONSIVE BASE TWEAK */
-
-@media (max-width: 900px) {
-  .journey-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .journey-left {
-    border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    padding-bottom: var(--space-4);
-  }
-
-  .mirror-layer {
-    font-size: 40px;
-  }
+hr{
+border:0;
+height:1px;
+background:#333;
+margin:30px 0;
 }
