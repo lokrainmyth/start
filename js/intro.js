@@ -11,29 +11,34 @@ class IoIntro {
   }
 
   init() {
-    // тап + клик + enter = одно поведение
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") this.start();
-    });
+    const start = () => this.start();
 
-    window.addEventListener("click", () => this.start());
-    window.addEventListener("touchstart", () => this.start());
+    window.addEventListener("keydown", start);
+    window.addEventListener("click", start);
+    window.addEventListener("touchstart", start);
   }
 
   async start() {
     if (this.started) return;
     this.started = true;
 
+    // проверка DOM (чтобы ты сразу видел проблему, если она есть)
+    if (!this.entry || !this.app) {
+      console.log("ENTRY or APP missing in HTML");
+      return;
+    }
+
     try {
       await this.audio.play();
     } catch (e) {
-      console.log("Audio blocked until gesture");
+      console.log("Audio blocked (gesture required)");
     }
 
-    this.entry.classList.add("fade-out");
+    this.entry.style.transition = "opacity 1s ease";
+    this.entry.style.opacity = "0";
 
     setTimeout(() => {
-      this.entry.classList.add("hidden");
+      this.entry.style.display = "none";
       this.app.classList.remove("hidden");
     }, 1000);
   }
