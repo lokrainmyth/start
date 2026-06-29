@@ -1,368 +1,428 @@
-/* ===========================================================
-   PROJECT DAWN
-   FIRST LIGHT
-   theme.css
-   =========================================================== */
+/* =========================
+   theme.css — Io First Light
+   Global state system
+   ========================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+:root {
 
-:root{
+  /* BASE BACKGROUND STATES */
+  --bg-night: #07060a;
+  --bg-deep-night: #050409;
+  --bg-pre-dawn: #0b0a10;
+  --bg-dawn: #14131a;
+  --bg-morning: #1b1a22;
 
-    /* ---------- COLORS ---------- */
+  /* LIGHT LAYERS */
+  --light-soft: rgba(255, 220, 180, 0.08);
+  --light-core: rgba(255, 200, 160, 0.18);
+  --light-glow: rgba(255, 210, 170, 0.25);
 
-    --bg:#11110f;
-    --bg2:#171613;
+  /* TEXT */
+  --text-primary: rgba(240, 235, 230, 0.9);
+  --text-muted: rgba(240, 235, 230, 0.4);
+  --text-hidden: rgba(240, 235, 230, 0.08);
 
-    --surface:rgba(255,255,255,.025);
+  /* ACCENTS */
+  --accent-warm: #d6a27a;
+  --accent-cold: #7aa6d6;
 
-    --text:#d9d4ca;
-    --muted:#89847a;
+  /* TRANSITIONS */
+  --t-slow: 1200ms ease;
+  --t-medium: 600ms ease;
+  --t-fast: 300ms ease;
 
-    --line:rgba(255,255,255,.06);
+  /* TYPOGRAPHY */
+  --font-main: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas;
 
-    --accent:#c9b06f;
+  /* SPACING */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 40px;
+  --space-7: 64px;
 
-    /* ---------- DAWN ---------- */
+  /* RADIUS */
+  --r-soft: 10px;
+  --r-medium: 18px;
+  --r-hard: 28px;
 
-    --dawn:0;
-
-    --warmth:0;
-
-    --noise-opacity:.22;
-
-    /* ---------- COVER ---------- */
-
-    --cover-brightness:.68;
-    --cover-saturation:.72;
-    --cover-contrast:.90;
-
-    /* ---------- MOTION ---------- */
-
-    --transition:700ms cubic-bezier(.2,.7,.2,1);
-
-    /* ---------- WIDTH ---------- */
-
-    --content-width:760px;
-
+  /* GLOBAL MOTION */
+  --blur-light: 40px;
+  --blur-core: 90px;
 }
 
-html{
+/* =========================
+   STATE SYSTEM (BODY)
+   ========================= */
 
-    background:var(--bg);
-
+body.state-night {
+  --bg: var(--bg-night);
+  --light-intensity: 0.15;
+  --interface-opacity: 0.15;
 }
 
-body{
-
-    margin:0;
-
-    color:var(--text);
-
-    background:
-
-    radial-gradient(
-        circle at 50% 120%,
-        rgba(214,182,110,.10),
-        transparent 60%
-    ),
-
-    radial-gradient(
-        circle at 20% 10%,
-        rgba(255,255,255,.03),
-        transparent 45%
-    ),
-
-    linear-gradient(
-        180deg,
-        var(--bg),
-        var(--bg2)
-    );
-
-    font-family:"Inter",sans-serif;
-
-    min-height:100vh;
-
-    overflow-x:hidden;
-
-    transition:
-    background 4s ease,
-    color var(--transition);
-
+body.state-deep-night {
+  --bg: var(--bg-deep-night);
+  --light-intensity: 0.08;
+  --interface-opacity: 0.08;
 }
 
-/* =======================================
-   GRAIN
-   ======================================= */
-
-body::before{
-
-    content:"";
-
-    position:fixed;
-
-    inset:0;
-
-    pointer-events:none;
-
-    opacity:var(--noise-opacity);
-
-    background-image:
-
-    radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);
-
-    background-size:4px 4px;
-
-    mix-blend-mode:soft-light;
-
+body.state-pre-dawn {
+  --bg: var(--bg-pre-dawn);
+  --light-intensity: 0.25;
+  --interface-opacity: 0.25;
 }
 
-/* =======================================
-   MOVING LIGHT
-   ======================================= */
-
-body::after{
-
-    content:"";
-
-    position:fixed;
-
-    inset:-30%;
-
-    pointer-events:none;
-
-    background:
-
-    radial-gradient(circle,
-    rgba(220,190,120,.06),
-    transparent 60%);
-
-    filter:blur(80px);
-
-    animation:
-    slowLight 45s linear infinite;
-
+body.state-dawn {
+  --bg: var(--bg-dawn);
+  --light-intensity: 0.45;
+  --interface-opacity: 0.5;
 }
 
-/* =======================================
-   TYPOGRAPHY
-   ======================================= */
-
-h1{
-
-    font-size:62px;
-
-    font-weight:300;
-
-    letter-spacing:.18em;
-
-    margin:0;
-
+body.state-morning {
+  --bg: var(--bg-morning);
+  --light-intensity: 0.7;
+  --interface-opacity: 0.85;
 }
 
-h2{
+/* =========================
+   GLOBAL BASE
+   ========================= */
 
-    font-size:15px;
-
-    font-weight:500;
-
-    letter-spacing:.28em;
-
-    text-transform:uppercase;
-
-    color:var(--muted);
-
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  overflow-x: hidden;
+  transition: background var(--t-slow);
 }
 
-h3{
-
-    font-size:13px;
-
-    font-weight:500;
-
-    letter-spacing:.24em;
-
-    color:var(--muted);
-
+* {
+  box-sizing: border-box;
 }
 
-p{
+/* =========================
+   BACKGROUND LAYERS
+   ========================= */
 
-    line-height:1.8;
-
-    color:#bdb7ab;
-
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
 }
 
-small{
-
-    color:var(--muted);
-
+.bg-gradient {
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(255, 210, 170, calc(var(--light-intensity) * 0.6)),
+    transparent 60%
+  );
+  filter: blur(var(--blur-core));
+  transition: all var(--t-slow);
 }
 
-/* =======================================
-   LINKS
-   ======================================= */
-
-a{
-
-    color:inherit;
-
-    text-decoration:none;
-
-    transition:opacity .4s;
-
+.bg-texture {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.02),
+    rgba(255,255,255,0.02) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.25;
+  mix-blend-mode: overlay;
 }
 
-a:hover{
-
-    opacity:.7;
-
+.bg-light {
+  background: radial-gradient(
+    circle at 60% 40%,
+    rgba(255, 230, 200, calc(var(--light-intensity) * 0.4)),
+    transparent 70%
+  );
+  filter: blur(var(--blur-light));
 }
 
-/* =======================================
-   HORIZON LINE
-   ======================================= */
+/* =========================
+   MIRROR WORDS
+   ========================= */
 
-hr{
-
-    border:none;
-
-    height:1px;
-
-    background:var(--line);
-
-    margin:48px 0;
-
+.mirror-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 64px;
+  letter-spacing: 0.4em;
+  transform: rotate(-8deg);
 }
 
-/* =======================================
-   COVER
-   ======================================= */
-
-.cover{
-
-    width:340px;
-
-    max-width:100%;
-
-    display:block;
-
-    margin:auto;
-
-    filter:
-
-        brightness(var(--cover-brightness))
-        saturate(var(--cover-saturation))
-        contrast(var(--cover-contrast));
-
-    transition:2s ease;
-
-    box-shadow:
-
-    0 30px 80px rgba(0,0,0,.45);
-
+.mirror-word {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
 }
 
-/* =======================================
-   ARTIST
-   ======================================= */
+/* =========================
+   APP STRUCTURE
+   ========================= */
 
-.artist-photo{
-
-    width:90px;
-
-    border-radius:50%;
-
-    opacity:.95;
-
-    transition:1s;
-
+.app {
+  position: relative;
+  min-height: 100vh;
+  padding: var(--space-6);
 }
 
-/* =======================================
-   TRACKS
-   ======================================= */
+/* =========================
+   TOP BAR
+   ========================= */
 
-.track{
-
-    font-family:"IBM Plex Mono",monospace;
-
-    letter-spacing:.12em;
-
-    transition:.5s;
-
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  opacity: var(--interface-opacity);
+  transition: opacity var(--t-medium);
 }
 
-.track:hover{
-
-    color:white;
-
+.project-title {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 12px;
 }
 
-.track.locked{
-
-    opacity:.45;
-
+.state-indicator {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  opacity: 0.7;
 }
 
-.track.completed{
+/* =========================
+   JOURNEY LAYOUT
+   ========================= */
 
-    opacity:1;
-
+.journey-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--space-6);
 }
 
-/* =======================================
-   HIDDEN PANELS
-   ======================================= */
-
-.future{
-
-    opacity:.04;
-
-    filter:blur(.6px);
-
-    transition:2s;
-
+.journey-column {
+  display: flex;
+  flex-direction: column;
 }
 
-.future.visible{
+/* =========================
+   TRACK PATH
+   ========================= */
 
-    opacity:1;
-
-    filter:none;
-
+.track-path {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
-/* =======================================
-   LANGUAGE
-   ======================================= */
-
-.lang{
-
-    opacity:.45;
-
-    transition:.4s;
-
+.track-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-3);
+  border-radius: var(--r-soft);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all var(--t-medium);
 }
 
-.lang.active{
-
-    opacity:1;
-
+.track-item.locked {
+  opacity: 0.2;
+  filter: blur(1px);
 }
 
-/* =======================================
-   TOAST
-   ======================================= */
+.track-item .track-title.hidden {
+  color: var(--text-hidden);
+}
 
-.toast{
+.track-code {
+  font-family: var(--font-mono);
+}
 
-    background:rgba(18,18,18,.86);
+.track-status {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+}
 
-    backdrop-filter:blur(12px);
+/* =========================
+   CORE VISUAL
+   ========================= */
 
-    border:1px solid rgba(255,255,255,.06);
+.core-visual {
+  height: 260px;
+  position: relative;
+  margin-bottom: var(--space-5);
+}
 
-    color:white;
+.light-core {
+  position: absolute;
+  inset: 30%;
+  background: var(--light-core);
+  border-radius: 50%;
+  filter: blur(60px);
+}
 
+.pulse-ring {
+  position: absolute;
+  inset: 20%;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+
+.cover-glow {
+  position: absolute;
+  inset: 10%;
+  background: var(--light-soft);
+  border-radius: 50%;
+  filter: blur(30px);
+}
+
+/* =========================
+   PLAYER
+   ========================= */
+
+.player {
+  margin-top: var(--space-5);
+  padding: var(--space-4);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--r-medium);
+}
+
+.player-controls {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: var(--r-soft);
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+
+.btn:hover {
+  border-color: rgba(255,255,255,0.25);
+}
+
+.btn.danger {
+  border-color: rgba(214, 80, 80, 0.4);
+}
+
+/* =========================
+   PROGRESS
+   ========================= */
+
+.progress-container {
+  width: 100%;
+  height: 2px;
+  background: rgba(255,255,255,0.08);
+  margin-bottom: var(--space-2);
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent-warm);
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+/* =========================
+   META SECTIONS
+   ========================= */
+
+.meta-sections {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.meta {
+  padding: var(--space-4);
+  border-radius: var(--r-medium);
+  border: 1px solid rgba(255,255,255,0.06);
+  opacity: var(--interface-opacity);
+  transition: opacity var(--t-slow);
+}
+
+.meta.locked {
+  opacity: 0.05;
+  filter: blur(2px);
+}
+
+.fade-text {
+  color: var(--text-hidden);
+}
+
+/* =========================
+   MYTH LAYER
+   ========================= */
+
+.myth-layer {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(20px);
+}
+
+.myth-question {
+  font-size: 24px;
+  letter-spacing: 0.3em;
+  margin-bottom: var(--space-5);
+}
+
+/* =========================
+   MODALS
+   ========================= */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  padding: var(--space-5);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r-medium);
+  background: rgba(10,10,12,0.8);
+}
+
+/* =========================
+   UTILITIES
+   ========================= */
+
+.hidden {
+  display: none;
 }
