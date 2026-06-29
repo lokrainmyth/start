@@ -1,1 +1,265 @@
+/* =========================
+   BOOT v0.1 — MAIN CSS
+   Project DAWN / Io
+   ========================= */
 
+/* ===== ROOT THEME (DAWN SYSTEM) ===== */
+
+:root {
+  --bg: #0b0b0d;
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.6);
+  --faint: rgba(255,255,255,0.25);
+
+  --accent: #c9b36a;
+
+  --transition: 600ms ease;
+  --transition-slow: 1200ms ease;
+
+  --max-width: 900px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 80px;
+
+  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ===== BASE RESET ===== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  overflow-x: hidden;
+}
+
+body {
+  line-height: 1.6;
+}
+
+/* ===== APP LAYOUT ===== */
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-5) var(--space-3);
+}
+
+/* ===== TOP BAR (LANG SWITCH) ===== */
+
+.topbar {
+  position: fixed;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  gap: var(--space-2);
+  z-index: 1000;
+}
+
+.lang {
+  background: transparent;
+  border: 1px solid var(--faint);
+  color: var(--muted);
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.lang:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.lang.active {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ===== HERO ===== */
+
+.hero {
+  width: 100%;
+  max-width: var(--max-width);
+  text-align: center;
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.album-title {
+  font-size: 72px;
+  font-weight: 300;
+  letter-spacing: 8px;
+  margin-bottom: var(--space-4);
+}
+
+.cover {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: block;
+  opacity: 0.9;
+  transition: var(--transition-slow);
+}
+
+.cover:hover {
+  opacity: 1;
+}
+
+/* ===== META ===== */
+
+.album-meta {
+  margin-top: var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+
+.meta-label {
+  opacity: 0.5;
+}
+
+.meta-value,
+.meta-name {
+  color: var(--text);
+}
+
+/* ===== INTRO TEXT ===== */
+
+.intro {
+  max-width: var(--max-width);
+  text-align: center;
+  margin: 0 auto;
+  padding: var(--space-5) 0;
+}
+
+.intro p {
+  margin-bottom: var(--space-3);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ===== ARTIST ===== */
+
+.artist {
+  max-width: var(--max-width);
+  margin: var(--space-6) auto;
+  text-align: center;
+}
+
+.artist-photo {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  margin-bottom: var(--space-3);
+  opacity: 0.85;
+}
+
+.artist h2 {
+  font-weight: 300;
+  letter-spacing: 4px;
+}
+
+.artist-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--faint);
+}
+
+/* ===== PLAYER ===== */
+
+#playerSection {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-top: var(--space-6);
+}
+
+.track {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-3);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-family: var(--mono);
+  font-size: 13px;
+  cursor: default;
+  transition: var(--transition);
+}
+
+.track:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.track.locked {
+  color: var(--faint);
+}
+
+.track.unlocked {
+  color: var(--muted);
+}
+
+.track.active {
+  color: var(--accent);
+}
+
+.track .num {
+  width: 40px;
+  opacity: 0.6;
+}
+
+.track .title {
+  flex: 1;
+}
+
+.track .status {
+  width: 40px;
+  text-align: right;
+}
+
+/* ===== TOAST ===== */
+
+#toast {
+  position: fixed;
+  bottom: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--muted);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+#toast.show {
+  opacity: 1;
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 768px) {
+  .album-title {
+    font-size: 48px;
+  }
+
+  .cover {
+    max-width: 320px;
+  }
+
+  .track {
+    font-size: 12px;
+  }
+}
