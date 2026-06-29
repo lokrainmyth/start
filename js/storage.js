@@ -1,94 +1,27 @@
-/* =========================
-   storage.js — Io First Light
-   Memory / persistence layer
-   ========================= */
-
 class IoStorage {
-  constructor() {
-    this.keys = {
-      index: "io_current_index",
-      completed: "io_completed_tracks",
-      skipped: "io_skipped_tracks",
-      state: "io_world_state"
-    };
-  }
-
-  /* =========================
-     INDEX (current position)
-     ========================= */
-
-  saveIndex(index) {
-    localStorage.setItem(this.keys.index, String(index));
+  saveIndex(i) {
+    localStorage.setItem("io_index", i);
   }
 
   getIndex() {
-    const v = localStorage.getItem(this.keys.index);
-    return v === null ? 0 : Number(v);
+    return Number(localStorage.getItem("io_index") || 0);
   }
 
-  /* =========================
-     COMPLETED TRACKS
-     ========================= */
-
-  saveCompleted(index) {
-    const list = this.getCompleted();
-    if (!list.includes(index)) {
-      list.push(index);
-      localStorage.setItem(this.keys.completed, JSON.stringify(list));
-    }
+  saveCompleted(i) {
+    const d = this.getCompleted();
+    if (!d.includes(i)) d.push(i);
+    localStorage.setItem("io_completed", JSON.stringify(d));
   }
 
   getCompleted() {
-    const raw = localStorage.getItem(this.keys.completed);
-    if (!raw) return [];
-    try {
-      return JSON.parse(raw);
-    } catch {
-      return [];
-    }
+    return JSON.parse(localStorage.getItem("io_completed") || "[]");
   }
 
-  /* =========================
-     SKIPPED TRACKS
-     ========================= */
-
-  saveSkipped(index) {
-    const list = this.getSkipped();
-    if (!list.includes(index)) {
-      list.push(index);
-      localStorage.setItem(this.keys.skipped, JSON.stringify(list));
-    }
-  }
-
-  getSkipped() {
-    const raw = localStorage.getItem(this.keys.skipped);
-    if (!raw) return [];
-    try {
-      return JSON.parse(raw);
-    } catch {
-      return [];
-    }
-  }
-
-  /* =========================
-     WORLD STATE
-     ========================= */
-
-  saveState(state) {
-    localStorage.setItem(this.keys.state, state);
+  saveState(s) {
+    localStorage.setItem("io_state", s);
   }
 
   getState() {
-    return localStorage.getItem(this.keys.state) || "night";
-  }
-
-  /* =========================
-     RESET (for testing / rebirth)
-     ========================= */
-
-  reset() {
-    Object.values(this.keys).forEach((k) => localStorage.removeItem(k));
+    return localStorage.getItem("io_state") || "night";
   }
 }
-
-window.IoStorage = IoStorage;
