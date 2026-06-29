@@ -1,1 +1,143 @@
+/* =========================
+   BOOT v0.1 — ANIMATIONS
+   Project DAWN
+   ========================= */
 
+/* ===== BASIC FADE ===== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== SUBTLE BREATH ===== */
+/* ощущение живого интерфейса */
+
+@keyframes breathe {
+  0% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.85;
+  }
+}
+
+/* ===== VERY SLOW DAWN SHIFT ===== */
+/* фундамент будущего рассвета */
+
+@keyframes dawnShift {
+  0% {
+    filter: brightness(0.95);
+  }
+  50% {
+    filter: brightness(1.05);
+  }
+  100% {
+    filter: brightness(0.98);
+  }
+}
+
+/* ===== MICRO GLITCH (TEXT FEEL) ===== */
+/* не эффект — ощущение декодирования */
+
+@keyframes microGlitch {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(0.5px, -0.5px); }
+  50%  { transform: translate(-0.5px, 0.5px); }
+  75%  { transform: translate(0.3px, 0.3px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ===== TEXT DECODING ===== */
+/* для будущих треков (проявление названий) */
+
+@keyframes decodeFlicker {
+  0%   { opacity: 0.2; }
+  20%  { opacity: 0.8; }
+  40%  { opacity: 0.4; }
+  60%  { opacity: 1; }
+  80%  { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* ===== TOAST (THE PATH CONTINUES) ===== */
+
+@keyframes toastFlow {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+}
+
+/* ===== SCENE WARMING (DAWN PROGRESSION) ===== */
+
+@keyframes sceneWarmth {
+  0% {
+    filter: sepia(0) brightness(0.9);
+  }
+  100% {
+    filter: sepia(0.25) brightness(1.15);
+  }
+}
+
+/* ===== CLASSES ===== */
+
+.fade-in {
+  animation: fadeIn 1.2s ease forwards;
+}
+
+.breathe {
+  animation: breathe 6s ease-in-out infinite;
+}
+
+.dawn-shift {
+  animation: dawnShift 12s ease-in-out infinite;
+}
+
+.glitch {
+  animation: microGlitch 180ms infinite;
+}
+
+.decode {
+  animation: decodeFlicker 0.8s ease;
+}
+
+.scene-warm {
+  animation: sceneWarmth 20s ease forwards;
+}
+
+/* ===== TOAST CLASS ===== */
+
+#toast.show {
+  animation: toastFlow 2.5s ease forwards;
+}
+
+/* ===== REDUCED MOTION ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
