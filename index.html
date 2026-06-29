@@ -1,132 +1,52 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+  <meta charset="UTF-8">
   <title>Lo.Krain - Io</title>
 
-  <link rel="icon" type="image/png" href="./favicon-32x32.png"/>
-
-  <link rel="stylesheet" href="./css/theme.css"/>
-  <link rel="stylesheet" href="./css/animations.css"/>
-  <link rel="stylesheet" href="./css/main.css"/>
-  <link rel="stylesheet" href="./css/responsive.css"/>
+  <link rel="stylesheet" href="./css/main.css">
 </head>
 
-<body class="state-night">
+<body>
 
-  <!-- BACKGROUND -->
-  <div class="bg-layer bg-gradient"></div>
-  <div class="bg-layer bg-texture"></div>
-  <div class="bg-layer bg-light"></div>
+<div class="layout">
 
-  <!-- MIRROR WORDS -->
-  <div class="mirror-layer">
-    <div class="mirror-word">IO</div>
-    <div class="mirror-word">PATH</div>
-    <div class="mirror-word">DAWN</div>
-    <div class="mirror-word">HOME</div>
+  <!-- LEFT -->
+  <div class="hero">
+
+    <img class="album-cover" src="./cover.jpeg">
+
+    <div class="title">Io</div>
+    <div class="subtitle">LO.KRAIN</div>
+
+    <div class="meta">
+      Release June 21, 2026<br>
+      Artist: Lo.Krain
+    </div>
+
+    <div class="artist-block">
+      <img class="artist-avatar" src="./artist.jpg">
+      <div class="meta">
+        Lo.Krain<br>
+        Exile Sound Project
+      </div>
+    </div>
+
   </div>
 
-<!-- ARTIST AVATAR -->
-<div class="artist-avatar">
-  <img src="./artist.jpg" />
+  <!-- RIGHT -->
+  <div>
+
+    <div class="playlist" id="playlist"></div>
+
+  </div>
+
 </div>
-  
-  <!-- TOP BAR -->
-  <header class="top-bar">
-    <div class="project-title">Lo.Krain - Io</div>
-    <div class="state-indicator" id="stateIndicator">NIGHT</div>
-  </header>
 
-  <!-- MAIN -->
-  <main class="journey-layout">
-
-    <!-- LEFT: PLAYLIST -->
-    <section class="journey-column journey-left">
-      <div class="playlist" id="playlist"></div>
-    </section>
-
-    <!-- RIGHT: CORE -->
-    <section class="journey-column journey-right">
-
-      <!-- COVER + META -->
-      <div class="album-identity">
-        <img src="./cover.jpeg" class="album-cover" id="albumCover"/>
-        <div class="album-meta">
-          <div>Lo.Krain</div>
-          <div>Io</div>
-          <div>21.06.2026</div>
-        </div>
-      </div>
-
-      <!-- VISUAL -->
-      <div class="core-visual">
-        <div class="light-core"></div>
-        <div class="pulse-ring"></div>
-        <div class="cover-glow"></div>
-      </div>
-
-      <!-- PLAYER -->
-      <div class="player">
-        <div class="player-controls">
-          <button id="playBtn" class="btn">PLAY</button>
-          <button id="pauseBtn" class="btn">PAUSE</button>
-          <button id="skipBtn" class="btn">SKIP</button>
-        </div>
-
-        <div class="progress-container">
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
-
-        <div class="progress-meta">
-          <span id="currentTime">00:00</span>
-          <span>/</span>
-          <span id="totalTime">00:00</span>
-        </div>
-      </div>
-
-      <!-- META -->
-      <section class="meta-sections">
-
-        <div class="meta about locked" id="aboutSection">
-          <h3>About</h3>
-          <p>•••</p>
-        </div>
-
-        <div class="meta lyrics locked" id="lyricsSection">
-          <h3>Lyrics</h3>
-          <p>•••</p>
-        </div>
-
-        <div class="meta communication locked" id="communicationSection">
-          <h3>Communication</h3>
-          <p>•••</p>
-        </div>
-
-      </section>
-
-    </section>
-  </main>
-
-  <!-- MYTH -->
-  <section class="myth-layer hidden" id="mythLayer">
-    <div class="myth-question">Go Deeper?</div>
-    <button class="btn" id="mythEnter">ENTER</button>
-  </section>
-
-  <!-- AUDIO -->
-  <audio id="audioEngine"></audio>
-
-  <!-- SCRIPTS -->
-  <script src="./js/storage.js"></script>
-  <script src="./js/translations.js"></script>
-  <script src="./js/player.js"></script>
-  <script src="./js/journey.js"></script>
-  <script src="./js/world.js"></script>
-  <script src="./js/app.js"></script>
+<script src="./js/storage.js"></script>
+<script src="./js/player.js"></script>
+<script src="./js/world.js"></script>
+<script src="./js/app.js"></script>
 
 </body>
 </html>
-
