@@ -1,88 +1,116 @@
 /* =========================
-   BOOT v0.1 — TRANSLATIONS
-   Project DAWN
+   translations.js — Io First Light
+   Poetic meaning layer (not i18n)
    ========================= */
 
-const Translations = (() => {
-
-  const dictionary = {
-
-    en: {
-      album: "Album",
-      release: "Release",
-      artist: "ARTIST",
-
-      intro1: "Io is the final chapter of a fifteen-year journey through night to dawn.",
-      intro2: "Listen from beginning to end.",
-      intro3: "The path continues beyond the last track.",
-
-      welcome: "Welcome",
-      path: "The path continues.",
-
-      locked: "Locked",
-      completed: "Completed",
-
-      mythEnter: "Go deeper",
-      return: "Return to dawn",
-
-      communication: "Communication"
+const IoLexicon = {
+  states: {
+    NIGHT: {
+      word: "NIGHT",
+      echo: "everything is still forming",
+      symbol: "∴",
+      colorHint: "cold-dark"
     },
-
-    ru: {
-      album: "Альбом",
-      release: "Релиз",
-      artist: "АРТИСТ",
-
-      intro1: "Io — финальная глава пятнадцатилетнего пути через ночь к рассвету.",
-      intro2: "Прослушай альбом от начала до конца.",
-      intro3: "Путь продолжается за пределами последнего трека.",
-
-      welcome: "Добро пожаловать",
-      path: "Путь продолжается.",
-
-      locked: "Закрыто",
-      completed: "Прослушано",
-
-      mythEnter: "Глубже",
-      return: "Вернуться к рассвету",
-
-      communication: "Связь"
+    DEEP_NIGHT: {
+      word: "DEEP NIGHT",
+      echo: "thoughts without name",
+      symbol: "∷",
+      colorHint: "void-warm"
+    },
+    PRE_DAWN: {
+      word: "PRE-DAWN",
+      echo: "something starts remembering itself",
+      symbol: "⋯",
+      colorHint: "breathing"
+    },
+    DAWN: {
+      word: "DAWN",
+      echo: "light becomes aware of shape",
+      symbol: "◐",
+      colorHint: "soft-rise"
+    },
+    MORNING: {
+      word: "MORNING",
+      echo: "everything has already happened",
+      symbol: "◑",
+      colorHint: "clear-distance"
     }
+  },
 
-  };
+  systemWords: {
+    PATH: {
+      echo: "sequence becomes identity"
+    },
+    IO: {
+      echo: "input becomes memory"
+    },
+    HOME: {
+      echo: "return is never identical"
+    }
+  },
 
-  let currentLang = "en";
+  tracks: {
+    0: {
+      echo: "entry without consent",
+      hint: "beginning is always mistaken"
+    },
+    1: {
+      echo: "movement disguised as routine",
+      hint: "you are already elsewhere"
+    },
+    2: {
+      echo: "dependency with a human face",
+      hint: "connection has weight"
+    },
+    3: {
+      echo: "sky that forgets it is sky",
+      hint: "darkness is structural"
+    },
+    4: {
+      echo: "exposure without protection",
+      hint: "nothing hides anymore"
+    },
+    5: {
+      echo: "sound without owner",
+      hint: "emotion detaches"
+    },
+    6: {
+      echo: "time becomes visible",
+      hint: "months collapse into one point"
+    },
+    7: {
+      echo: "age that stops being number",
+      hint: "identity loosens"
+    },
+    8: {
+      echo: "beauty without demand",
+      hint: "no need to hold it"
+    },
+    9: {
+      echo: "arrival that was never departure",
+      hint: "end folds into origin"
+    }
+  },
 
-  function init(lang = "en") {
-    currentLang = lang;
+  final: {
+    myth: {
+      title: "GO DEEPER",
+      echo: "this is not the end of listening",
+      hint: "it is the beginning of remembering"
+    }
   }
+};
 
-  function setLang(lang) {
-    currentLang = lang;
-  }
+/* =========================
+   helper access layer
+   ========================= */
 
-  function getLang() {
-    return currentLang;
-  }
+window.IoLexicon = IoLexicon;
 
-  function t(key) {
-    return dictionary[currentLang][key] || key;
-  }
+window.getStateLexicon = function(state) {
+  return IoLexicon.states[state.toUpperCase()];
+};
 
-  function applyToDOM() {
-    const elements = document.querySelectorAll("[data-i18n]");
-    elements.forEach(el => {
-      const key = el.getAttribute("data-i18n");
-      el.textContent = t(key);
-    });
-  }
-
-  return {
-    init,
-    setLang,
-    getLang,
-    t,
-    applyToDOM
-  };
-
-})();
+window.getTrackLexicon = function(index) {
+  return IoLexicon.tracks[index];
+};
