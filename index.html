@@ -6,7 +6,7 @@
 
   <title>Lo.Krain - Io</title>
 
-  <link rel="icon" type="image/png" href="./favicon-32x32.png"/>
+  <link rel="icon" href="./favicon-32x32.png"/>
 
   <link rel="stylesheet" href="./css/theme.css"/>
   <link rel="stylesheet" href="./css/animations.css"/>
@@ -16,111 +16,82 @@
 
 <body class="state-night">
 
-  <!-- BACKGROUND -->
-  <div class="bg-layer bg-gradient"></div>
-  <div class="bg-layer bg-texture"></div>
-  <div class="bg-layer bg-light"></div>
+<!-- ABSTRACT BACKGROUND -->
+<div class="bg"></div>
+<div class="noise"></div>
+<div class="light-field"></div>
 
-  <!-- MIRROR WORDS -->
-  <div class="mirror-layer">
-    <div class="mirror-word">IO</div>
-    <div class="mirror-word">PATH</div>
-    <div class="mirror-word">DAWN</div>
-    <div class="mirror-word">HOME</div>
-  </div>
+<!-- HEADER -->
+<header class="top">
+  <div class="title">Lo.Krain — Io</div>
+  <div class="state" id="state">NIGHT</div>
+</header>
 
-  <!-- TOP BAR -->
-  <header class="top-bar">
-    <div class="project-title">Lo.Krain - Io</div>
-    <div class="state-indicator" id="stateIndicator">NIGHT</div>
-  </header>
+<main class="layout">
 
-  <!-- MAIN -->
-  <main class="journey-layout">
+  <!-- LEFT: PLAYLIST -->
+  <section class="left">
 
-    <!-- LEFT: PLAYLIST -->
-    <section class="journey-column journey-left">
-      <div class="playlist" id="playlist"></div>
-    </section>
+    <div id="playlist" class="playlist"></div>
 
-    <!-- RIGHT: CORE -->
-    <section class="journey-column journey-right">
-
-      <!-- COVER + META -->
-      <div class="album-identity">
-        <img src="./cover.jpeg" class="album-cover" id="albumCover"/>
-        <div class="album-meta">
-          <div>Lo.Krain</div>
-          <div>Io</div>
-          <div>21.06.2026</div>
-        </div>
-      </div>
-
-      <!-- VISUAL -->
-      <div class="core-visual">
-        <div class="light-core"></div>
-        <div class="pulse-ring"></div>
-        <div class="cover-glow"></div>
-      </div>
-
-      <!-- PLAYER -->
-      <div class="player">
-        <div class="player-controls">
-          <button id="playBtn" class="btn">PLAY</button>
-          <button id="pauseBtn" class="btn">PAUSE</button>
-          <button id="skipBtn" class="btn">SKIP</button>
-        </div>
-
-        <div class="progress-container">
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
-
-        <div class="progress-meta">
-          <span id="currentTime">00:00</span>
-          <span>/</span>
-          <span id="totalTime">00:00</span>
-        </div>
-      </div>
-
-      <!-- META -->
-      <section class="meta-sections">
-
-        <div class="meta about locked" id="aboutSection">
-          <h3>About</h3>
-          <p>•••</p>
-        </div>
-
-        <div class="meta lyrics locked" id="lyricsSection">
-          <h3>Lyrics</h3>
-          <p>•••</p>
-        </div>
-
-        <div class="meta communication locked" id="communicationSection">
-          <h3>Communication</h3>
-          <p>•••</p>
-        </div>
-
-      </section>
-
-    </section>
-  </main>
-
-  <!-- MYTH -->
-  <section class="myth-layer hidden" id="mythLayer">
-    <div class="myth-question">Go Deeper?</div>
-    <button class="btn" id="mythEnter">ENTER</button>
   </section>
 
-  <!-- AUDIO -->
-  <audio id="audioEngine"></audio>
+  <!-- RIGHT: CORE EXPERIENCE -->
+  <section class="right">
 
-  <!-- SCRIPTS -->
-  <script src="./js/storage.js"></script>
-  <script src="./js/translations.js"></script>
-  <script src="./js/player.js"></script>
-  <script src="./js/journey.js"></script>
-  <script src="./js/world.js"></script>
-  <script src="./js/app.js"></script>
+    <!-- ORBIT COVER -->
+    <div class="orbit">
+      <img src="./cover.jpeg" class="cover" id="cover"/>
+      <div class="orbit-ring"></div>
+    </div>
+
+    <!-- ARTIST -->
+    <div class="artist">
+      <img src="./artist.jpg" class="artist-img"/>
+      <div class="artist-name">Lo.Krain</div>
+      <div class="album-name">Io</div>
+      <div class="album-date">21.06.2026</div>
+    </div>
+
+    <!-- PLAYER -->
+    <div class="player">
+
+      <div class="controls">
+        <button id="play">PLAY</button>
+        <button id="pause">PAUSE</button>
+        <button id="skip">SKIP</button>
+      </div>
+
+      <div class="progress">
+        <div id="bar"></div>
+      </div>
+
+      <div class="time">
+        <span id="t1">00:00</span> / <span id="t2">00:00</span>
+      </div>
+
+      <div class="warning">
+        путь запоминается — пропустить шаг?
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- MYTH -->
+<section id="myth" class="myth hidden">
+  <div class="myth-title">Go Deeper?</div>
+  <button id="enterMyth">ENTER</button>
+</section>
+
+<audio id="audio"></audio>
+
+<script src="./js/storage.js"></script>
+<script src="./js/player.js"></script>
+<script src="./js/world.js"></script>
+<script src="./js/app.js"></script>
 
 </body>
 </html>
