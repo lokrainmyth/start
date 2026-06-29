@@ -1,75 +1,97 @@
 /* =========================
-   BOOT v0.1 — APP ENTRY
-   Project DAWN
+   app.js — Io First Light
+   Bootstrap / world init
    ========================= */
 
-(async () => {
+class IoApp {
+  constructor() {
+    this.player = null;
+    this.journey = null;
+    this.storage = new IoStorage();
 
-  /* ===== LOAD DATA ===== */
+    this.tracks = [];
+  }
 
-  const tracksData = await fetch("data/tracks.json")
-    .then(res => res.json());
+  async init() {
+    await this.loadTracks();
 
-  /* ===== INIT CORE SYSTEMS ===== */
+    this.player = new IoPlayer();
+    this.journey = new IoJourney(this.player);
 
-  Storage.init();
+    this.player.load(this.tracks);
+    this.journey.init();
 
-  const lang = Storage.getSettings().lang;
-  Translations.init(lang);
+    this.restoreWorld();
+    this.bindGlobalState();
+  }
 
-  UI.init();
-  Player.init();
-  Journey.init(tracksData);
+  async loadTracks() {
+    const res = await fetch("./data/tracks.json");
+    this.tracks = await res.json();
+  }
 
-  /* ===== APPLY LANGUAGE ===== */
+  restoreWorld() {
+    const index = this.storage.getIndex();
+    const state = this.storage.getState();
 
-  Translations.applyToDOM();
-  UI.setActiveLang(lang);
+    this.player.currentIndex = index;
+    this.player.loadTrack(index);
 
-  /* ===== RENDER TRACKS ===== */
+    document.body.classList.remove(
+      "state-night",
+      "state-deep-night",
+      "state-pre-dawn",
+      "state-dawn",
+      "state-morning"
+    );
 
-  const progress = Storage.getProgress();
-  UI.renderTracks(tracksData.tracks, progress);
+    document.body.classList.add(`state-${state}`);
 
-  /* ===== EVENTS ===== */
+    const indicator = document.getElementById("stateIndicator");
+    if (indicator) {
+      indicator.textContent = state.toUpperCase();
+    }
+  }
 
-  document.addEventListener("track:selected", (e) => {
-    Journey.startTrack(e.detail);
-  });
+  bindGlobalState() {
+    // sync player → storage
+    this.player.saveIndex = (i) => {
+      this.storage.saveIndex(i);
+    };
 
-  document.addEventListener("track:ended", (e) => {
-    Journey.onTrackEnded(e.detail);
-  });
+    this.player.getSavedIndex = () => {
+      return this.storage.getIndex();
+    };
 
-  document.addEventListener("myth:unlocked", () => {
-    UI.showToast("Go deeper.");
-  });
+    // hook completion
+    const originalCompleted = this.player.markCompleted.bind(this.player);
+    this.player.markCompleted = (index) => {
+      this.storage.saveCompleted(index);
+      originalCompleted(index);
+    };
 
-  /* ===== LANGUAGE SWITCH ===== */
+    // hook skip
+    const originalSkip = this.player.markSkipped.bind(this.player);
+    this.player.markSkipped = (index) => {
+      this.storage.saveSkipped(index);
+      originalSkip(index);
+    };
 
-  document.getElementById("enButton").addEventListener("click", () => {
-    Translations.setLang("en");
-    Storage.getSettings().lang = "en";
-    localStorage.setItem("dawn_settings", JSON.stringify(Storage.getSettings()));
+    // hook state save (from journey)
+    const originalUpdateState = this.journey.updateWorldState.bind(this.journey);
+    this.journey.updateWorldState = (index) => {
+      const state = this.journey.getStateByIndex(index);
+      this.storage.saveState(state);
+      originalUpdateState(index);
+    };
+  }
+}
 
-    Translations.applyToDOM();
-    UI.setActiveLang("en");
-  });
+/* =========================
+   BOOTSTRAP
+   ========================= */
 
-  document.getElementById("ruButton").addEventListener("click", () => {
-    Translations.setLang("ru");
-    Storage.getSettings().lang = "ru";
-    localStorage.setItem("dawn_settings", JSON.stringify(Storage.getSettings()));
-
-    Translations.applyToDOM();
-    UI.setActiveLang("ru");
-  });
-
-  /* ===== CONSOLE EXPERIENCE ===== */
-
-  console.log("%cBOOT SEQUENCE", "color:#c9b36a; font-size:12px; letter-spacing:2px;");
-  console.log("Loading memories...");
-  console.log("Searching for dawn...");
-  console.log("The path continues.");
-
-})();
+window.addEventListener("DOMContentLoaded", () => {
+  const app = new IoApp();
+  app.init();
+});
