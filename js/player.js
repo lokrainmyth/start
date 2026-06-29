@@ -1,115 +1,161 @@
 /* =========================
-   BOOT v0.1 — PLAYER
-   Project DAWN
+   player.js — Io First Light
+   Core audio path system
    ========================= */
 
-const Player = (() => {
+class IoPlayer {
+  constructor() {
+    this.audio = document.getElementById("audioEngine");
 
-  let audio = null;
-  let currentTrack = null;
-  let isPlaying = false;
+    this.tracks = [];
+    this.currentIndex = 0;
 
-  /* ===== INIT ===== */
+    this.isPlaying = false;
+    this.isLocked = true;
 
-  function init() {
-    audio = new Audio();
-    audio.preload = "auto";
+    this.state = "night";
 
-    bindEvents();
+    this.progressBar = document.getElementById("progressBar");
+    this.currentTimeEl = document.getElementById("currentTime");
+    this.totalTimeEl = document.getElementById("totalTime");
+
+    this.trackNameEl = document.getElementById("trackName");
+    this.trackNumberEl = document.getElementById("trackNumber");
+
+    this.skipModal = document.getElementById("skipModal");
+    this.warningModal = document.getElementById("warningModal");
+
+    this.bindEvents();
   }
 
-  /* ===== EVENTS ===== */
-
-  function bindEvents() {
-
-    audio.addEventListener("ended", () => {
-      onTrackEnd();
-    });
-
+  load(tracks) {
+    this.tracks = tracks;
+    this.currentIndex = this.getSavedIndex() || 0;
+    this.loadTrack(this.currentIndex);
   }
 
-  /* ===== LOAD TRACK ===== */
+  bindEvents() {
+    document.getElementById("playBtn").addEventListener("click", () => this.play());
+    document.getElementById("pauseBtn").addEventListener("click", () => this.pause());
+    document.getElementById("skipBtn").addEventListener("click", () => this.requestSkip());
 
-  function load(track) {
+    document.getElementById("confirmSkip").addEventListener("click", () => this.skip(true));
+    document.getElementById("cancelSkip").addEventListener("click", () => this.closeModal());
+
+    this.audio.addEventListener("timeupdate", () => this.updateProgress());
+    this.audio.addEventListener("ended", () => this.next());
+  }
+
+  loadTrack(index) {
+    const track = this.tracks[index];
     if (!track) return;
 
-    currentTrack = track;
-    audio.src = track.file;
+    this.audio.src = `./assets/music/${track.file}`;
+    this.trackNameEl.textContent = track.title || "UNKNOWN";
+    this.trackNumberEl.textContent = String(index + 1).padStart(2, "0");
+
+    this.saveIndex(index);
   }
 
-  /* ===== PLAY ===== */
+  play() {
+    this.audio.play();
+    this.isPlaying = true;
+  }
 
-  function play(track) {
+  pause() {
+    this.audio.pause();
+    this.isPlaying = false;
+  }
 
-    if (track) {
-      load(track);
+  requestSkip() {
+    this.skipModal.classList.remove("hidden");
+  }
+
+  skip(force = false) {
+    if (!force) return;
+
+    this.markSkipped(this.currentIndex);
+
+    this.currentIndex++;
+
+    if (this.currentIndex >= this.tracks.length) {
+      this.finishJourney();
+      return;
     }
 
-    if (!audio.src) return;
+    this.loadTrack(this.currentIndex);
+    this.play();
 
-    audio.play();
-    isPlaying = true;
-
-    updateMediaSession(currentTrack);
+    this.closeModal();
   }
 
-  /* ===== STOP ===== */
+  next() {
+    this.markCompleted(this.currentIndex);
 
-  function stop() {
-    audio.pause();
-    isPlaying = false;
+    this.currentIndex++;
+
+    if (this.currentIndex >= this.tracks.length) {
+      this.finishJourney();
+      return;
+    }
+
+    this.loadTrack(this.currentIndex);
+    this.play();
   }
 
-  /* ===== END LOGIC ===== */
+  updateProgress() {
+    if (!this.audio.duration) return;
 
-  function onTrackEnd() {
-    isPlaying = false;
+    const percent = (this.audio.currentTime / this.audio.duration) * 100;
+    this.progressBar.style.width = `${percent}%`;
 
-    document.dispatchEvent(new CustomEvent("track:ended", {
-      detail: currentTrack
-    }));
+    this.currentTimeEl.textContent = this.formatTime(this.audio.currentTime);
+    this.totalTimeEl.textContent = this.formatTime(this.audio.duration);
   }
 
-  /* ===== MEDIA SESSION (lock screen support) ===== */
+  markCompleted(index) {
+    const el = document.querySelector(`[data-track="${index}"]`);
+    if (!el) return;
 
-  function updateMediaSession(track) {
-
-    if (!("mediaSession" in navigator)) return;
-
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title: track.title,
-      artist: "Lo.Krain",
-      album: "Io",
-      artwork: [
-        { src: "cover.jpeg", sizes: "512x512", type: "image/jpeg" }
-      ]
-    });
-
-    navigator.mediaSession.setActionHandler("play", () => play());
-    navigator.mediaSession.setActionHandler("pause", () => stop());
-
-    // intentionally NO next/previous controls
-    navigator.mediaSession.setActionHandler("nexttrack", null);
-    navigator.mediaSession.setActionHandler("previoustrack", null);
+    el.classList.remove("locked");
+    el.classList.add("completed");
+    el.querySelector(".track-status").textContent = "☀";
   }
 
-  /* ===== GET STATE ===== */
+  markSkipped(index) {
+    const el = document.querySelector(`[data-track="${index}"]`);
+    if (!el) return;
 
-  function getCurrent() {
-    return currentTrack;
+    el.classList.add("skipped");
+    el.querySelector(".track-status").textContent = "SKIP";
   }
 
-  function getAudio() {
-    return audio;
+  closeModal() {
+    this.skipModal.classList.add("hidden");
+    this.warningModal.classList.add("hidden");
   }
 
-  return {
-    init,
-    play,
-    stop,
-    load,
-    getCurrent,
-    getAudio
-  };
+  finishJourney() {
+    document.body.classList.add("state-morning");
+    document.body.classList.remove("state-night");
 
-})();
+    const myth = document.getElementById("mythLayer");
+    myth.classList.remove("hidden");
+  }
+
+  formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
+
+  saveIndex(i) {
+    localStorage.setItem("io_current_index", i);
+  }
+
+  getSavedIndex() {
+    return parseInt(localStorage.getItem("io_current_index"));
+  }
+}
+
+window.IoPlayer = IoPlayer;
