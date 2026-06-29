@@ -1,1 +1,368 @@
+/* ===========================================================
+   PROJECT DAWN
+   FIRST LIGHT
+   theme.css
+   =========================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root{
+
+    /* ---------- COLORS ---------- */
+
+    --bg:#11110f;
+    --bg2:#171613;
+
+    --surface:rgba(255,255,255,.025);
+
+    --text:#d9d4ca;
+    --muted:#89847a;
+
+    --line:rgba(255,255,255,.06);
+
+    --accent:#c9b06f;
+
+    /* ---------- DAWN ---------- */
+
+    --dawn:0;
+
+    --warmth:0;
+
+    --noise-opacity:.22;
+
+    /* ---------- COVER ---------- */
+
+    --cover-brightness:.68;
+    --cover-saturation:.72;
+    --cover-contrast:.90;
+
+    /* ---------- MOTION ---------- */
+
+    --transition:700ms cubic-bezier(.2,.7,.2,1);
+
+    /* ---------- WIDTH ---------- */
+
+    --content-width:760px;
+
+}
+
+html{
+
+    background:var(--bg);
+
+}
+
+body{
+
+    margin:0;
+
+    color:var(--text);
+
+    background:
+
+    radial-gradient(
+        circle at 50% 120%,
+        rgba(214,182,110,.10),
+        transparent 60%
+    ),
+
+    radial-gradient(
+        circle at 20% 10%,
+        rgba(255,255,255,.03),
+        transparent 45%
+    ),
+
+    linear-gradient(
+        180deg,
+        var(--bg),
+        var(--bg2)
+    );
+
+    font-family:"Inter",sans-serif;
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    transition:
+    background 4s ease,
+    color var(--transition);
+
+}
+
+/* =======================================
+   GRAIN
+   ======================================= */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    opacity:var(--noise-opacity);
+
+    background-image:
+
+    radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);
+
+    background-size:4px 4px;
+
+    mix-blend-mode:soft-light;
+
+}
+
+/* =======================================
+   MOVING LIGHT
+   ======================================= */
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    inset:-30%;
+
+    pointer-events:none;
+
+    background:
+
+    radial-gradient(circle,
+    rgba(220,190,120,.06),
+    transparent 60%);
+
+    filter:blur(80px);
+
+    animation:
+    slowLight 45s linear infinite;
+
+}
+
+/* =======================================
+   TYPOGRAPHY
+   ======================================= */
+
+h1{
+
+    font-size:62px;
+
+    font-weight:300;
+
+    letter-spacing:.18em;
+
+    margin:0;
+
+}
+
+h2{
+
+    font-size:15px;
+
+    font-weight:500;
+
+    letter-spacing:.28em;
+
+    text-transform:uppercase;
+
+    color:var(--muted);
+
+}
+
+h3{
+
+    font-size:13px;
+
+    font-weight:500;
+
+    letter-spacing:.24em;
+
+    color:var(--muted);
+
+}
+
+p{
+
+    line-height:1.8;
+
+    color:#bdb7ab;
+
+}
+
+small{
+
+    color:var(--muted);
+
+}
+
+/* =======================================
+   LINKS
+   ======================================= */
+
+a{
+
+    color:inherit;
+
+    text-decoration:none;
+
+    transition:opacity .4s;
+
+}
+
+a:hover{
+
+    opacity:.7;
+
+}
+
+/* =======================================
+   HORIZON LINE
+   ======================================= */
+
+hr{
+
+    border:none;
+
+    height:1px;
+
+    background:var(--line);
+
+    margin:48px 0;
+
+}
+
+/* =======================================
+   COVER
+   ======================================= */
+
+.cover{
+
+    width:340px;
+
+    max-width:100%;
+
+    display:block;
+
+    margin:auto;
+
+    filter:
+
+        brightness(var(--cover-brightness))
+        saturate(var(--cover-saturation))
+        contrast(var(--cover-contrast));
+
+    transition:2s ease;
+
+    box-shadow:
+
+    0 30px 80px rgba(0,0,0,.45);
+
+}
+
+/* =======================================
+   ARTIST
+   ======================================= */
+
+.artist-photo{
+
+    width:90px;
+
+    border-radius:50%;
+
+    opacity:.95;
+
+    transition:1s;
+
+}
+
+/* =======================================
+   TRACKS
+   ======================================= */
+
+.track{
+
+    font-family:"IBM Plex Mono",monospace;
+
+    letter-spacing:.12em;
+
+    transition:.5s;
+
+}
+
+.track:hover{
+
+    color:white;
+
+}
+
+.track.locked{
+
+    opacity:.45;
+
+}
+
+.track.completed{
+
+    opacity:1;
+
+}
+
+/* =======================================
+   HIDDEN PANELS
+   ======================================= */
+
+.future{
+
+    opacity:.04;
+
+    filter:blur(.6px);
+
+    transition:2s;
+
+}
+
+.future.visible{
+
+    opacity:1;
+
+    filter:none;
+
+}
+
+/* =======================================
+   LANGUAGE
+   ======================================= */
+
+.lang{
+
+    opacity:.45;
+
+    transition:.4s;
+
+}
+
+.lang.active{
+
+    opacity:1;
+
+}
+
+/* =======================================
+   TOAST
+   ======================================= */
+
+.toast{
+
+    background:rgba(18,18,18,.86);
+
+    backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,.06);
+
+    color:white;
+
+}
