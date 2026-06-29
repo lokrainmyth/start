@@ -1,1 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Io — Lo.Krain</title>
+    <meta name="description" content="Io — the final chapter of a fifteen-year journey through night to dawn.">
+
+    <meta property="og:title" content="Io — Lo.Krain">
+    <meta property="og:description" content="Listen from beginning to end. The path continues beyond the last track.">
+    <meta property="og:image" content="social-cover.jpg">
+
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+
+<body>
+
+<div id="app">
+
+    <header class="topbar">
+
+        <button id="ruButton" class="lang active">RU</button>
+
+        <button id="enButton" class="lang">EN</button>
+
+    </header>
+
+    <main>
+
+        <section class="hero">
+
+            <h1 class="album-title">
+                Io
+            </h1>
+
+            <img
+                src="cover.jpeg"
+                alt="Io Album Cover"
+                class="cover"
+            >
+
+            <div class="album-meta">
+
+                <div class="meta-label" data-i18n="album">
+                    Album
+                </div>
+
+                <div class="meta-name">
+                    Io
+                </div>
+
+                <div class="meta-label" data-i18n="release">
+                    Release
+                </div>
+
+                <div class="meta-value">
+                    21 June 2026
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="intro">
+
+            <p data-i18n="intro1">
+                Io is the final chapter of a fifteen-year journey through night to dawn.
+            </p>
+
+            <p data-i18n="intro2">
+                Listen from beginning to end.
+            </p>
+
+            <p data-i18n="intro3">
+                The path continues beyond the last track.
+            </p>
+
+        </section>
+
+        <section class="artist">
+
+            <img
+                src="artist.jpg"
+                alt="Lo.Krain"
+                class="artist-photo"
+            >
+
+            <h2>
+                Lo.Krain
+            </h2>
+
+            <div class="artist-label">
+                ARTIST
+            </div>
+
+        </section>
+
+        <section id="playerSection">
+
+            <!-- Player will be generated here -->
+
+        </section>
+
+        <section id="unlockSection">
+
+            <!-- Myth appears here -->
+
+        </section>
+
+    </main>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/translations.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/player.js"></script>
+<script src="js/journey.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
