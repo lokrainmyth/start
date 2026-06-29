@@ -1,102 +1,98 @@
 /* =========================
-   BOOT v0.1 — JOURNEY
-   Project DAWN
+   journey.js — Io First Light
+   World awakening system
    ========================= */
 
-const Journey = (() => {
+class IoJourney {
+  constructor(player) {
+    this.player = player;
 
-  let tracks = [];
-  let progress = null;
-  let isCompleted = false;
+    this.about = document.getElementById("aboutSection");
+    this.lyrics = document.getElementById("lyricsSection");
+    this.communication = document.getElementById("communicationSection");
 
-  /* ===== INIT ===== */
+    this.stateIndicator = document.getElementById("stateIndicator");
 
-  function init(trackData) {
-    tracks = trackData.tracks;
-    progress = Storage.getProgress();
-
-    checkCompletion();
+    this.revealMap = {
+      2: "about",
+      5: "lyrics",
+      7: "communication"
+    };
   }
 
-  /* ===== START TRACK ===== */
+  init() {
+    this.bindTrackEvents();
+  }
 
-  function startTrack(track) {
+  bindTrackEvents() {
+    const items = document.querySelectorAll(".track-item");
 
-    if (!Storage.isTrackUnlocked(track.id)) {
+    items.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        const index = Number(item.dataset.track);
+        this.handleTrackTap(index);
+      });
+    });
+  }
+
+  handleTrackTap(index) {
+    if (index > this.player.currentIndex) {
+      this.showLockedFeedback();
       return;
     }
 
-    UI.updateTrackState(track.id, "active");
-
-    Player.play(track);
-  }
-
-  /* ===== COMPLETE TRACK ===== */
-
-  function completeTrack(track) {
-
-    Storage.completeTrack(track.id);
-
-    UI.updateTrackState(track.id, "unlocked");
-
-    UI.showToast("The path continues.");
-
-    checkCompletion();
-  }
-
-  /* ===== TRACK END HANDLER ===== */
-
-  function onTrackEnded(track) {
-
-    completeTrack(track);
-
-    const nextTrackId = track.id + 1;
-    const nextTrack = tracks.find(t => t.id === nextTrackId);
-
-    if (nextTrack) {
-      setTimeout(() => {
-        startTrack(nextTrack);
-      }, 1500);
-    } else {
-      unlockMyth();
+    if (index < this.player.currentIndex) {
+      return;
     }
+
+    this.updateWorldState(index);
+    this.revealInterface(index);
   }
 
-  /* ===== MYTH ===== */
+  updateWorldState(index) {
+    const state = this.getStateByIndex(index);
 
-  function unlockMyth() {
-
-    Storage.unlockMyth();
-
-    isCompleted = true;
-
-    UI.showToast("Go deeper.");
-
-    document.dispatchEvent(new Event("myth:unlocked"));
-  }
-
-  /* ===== COMPLETION CHECK ===== */
-
-  function checkCompletion() {
-
-    const progress = Storage.getProgress();
-
-    const allDone = tracks.every(t =>
-      progress.completedTracks.includes(t.id)
+    document.body.classList.remove(
+      "state-night",
+      "state-deep-night",
+      "state-pre-dawn",
+      "state-dawn",
+      "state-morning"
     );
 
-    if (allDone && !isCompleted) {
-      unlockMyth();
-    }
+    document.body.classList.add(`state-${state}`);
+
+    this.stateIndicator.textContent = state.toUpperCase();
   }
 
-  /* ===== PUBLIC ===== */
+  getStateByIndex(index) {
+    if (index <= 1) return "night";
+    if (index <= 3) return "deep-night";
+    if (index <= 5) return "pre-dawn";
+    if (index <= 7) return "dawn";
+    return "morning";
+  }
 
-  return {
-    init,
-    startTrack,
-    onTrackEnded,
-    unlockMyth
-  };
+  revealInterface(index) {
+    const key = this.revealMap[index];
+    if (!key) return;
 
-})();
+    if (key === "about") this.unlock(this.about);
+    if (key === "lyrics") this.unlock(this.lyrics);
+    if (key === "communication") this.unlock(this.communication);
+  }
+
+  unlock(el) {
+    if (!el) return;
+
+    el.classList.remove("locked");
+    el.classList.add("revealed");
+  }
+
+  showLockedFeedback() {
+    const warning = document.getElementById("warningModal");
+    warning.classList.remove("hidden");
+  }
+}
+
+window.IoJourney = IoJourney;
