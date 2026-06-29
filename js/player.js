@@ -159,3 +159,10 @@ class IoPlayer {
 }
 
 window.IoPlayer = IoPlayer;
+if (this.onTrackChange) {
+  this.onTrackChange(this.currentIndex);
+}
+
+if (this.currentIndex >= this.tracks.length && this.onFinish) {
+  this.onFinish();
+}
