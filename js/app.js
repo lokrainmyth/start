@@ -1,97 +1,57 @@
-/* =========================
-   app.js — Io First Light
-   Bootstrap / world init
-   ========================= */
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("play");
+const skipBtn = document.getElementById("skip");
+const now = document.getElementById("now");
 
-class IoApp {
-  constructor() {
-    this.player = null;
-    this.journey = null;
-    this.storage = new IoStorage();
+let tracks = [
+"01-put.mp3",
+"02-kofe-s-soboy.mp3",
+"03-drug.mp3",
+"04-nebo-temnoe.mp3",
+"05-dogola.mp3",
+"06-grustnaya-muzyka.mp3",
+"07-dekabr.mp3",
+"08-17.mp3",
+"09-krasivo.mp3",
+"10-rassvet.mp3"
+];
 
-    this.tracks = [];
-  }
+let index = 0;
 
-  async init() {
-    await this.loadTracks();
-
-    this.player = new IoPlayer();
-    this.journey = new IoJourney(this.player);
-
-    this.player.load(this.tracks);
-    this.journey.init();
-
-    this.restoreWorld();
-    this.bindGlobalState();
-  }
-
-  async loadTracks() {
-    const res = await fetch("./data/tracks.json");
-    this.tracks = await res.json();
-  }
-
-  restoreWorld() {
-    const index = this.storage.getIndex();
-    const state = this.storage.getState();
-
-    this.player.currentIndex = index;
-    this.player.loadTrack(index);
-
-    document.body.classList.remove(
-      "state-night",
-      "state-deep-night",
-      "state-pre-dawn",
-      "state-dawn",
-      "state-morning"
-    );
-
-    document.body.classList.add(`state-${state}`);
-
-    const indicator = document.getElementById("stateIndicator");
-    if (indicator) {
-      indicator.textContent = state.toUpperCase();
-    }
-  }
-
-  bindGlobalState() {
-    // sync player → storage
-    this.player.saveIndex = (i) => {
-      this.storage.saveIndex(i);
-    };
-
-    this.player.getSavedIndex = () => {
-      return this.storage.getIndex();
-    };
-
-    // hook completion
-    const originalCompleted = this.player.markCompleted.bind(this.player);
-    this.player.markCompleted = (index) => {
-      this.storage.saveCompleted(index);
-      originalCompleted(index);
-    };
-
-    // hook skip
-    const originalSkip = this.player.markSkipped.bind(this.player);
-    this.player.markSkipped = (index) => {
-      this.storage.saveSkipped(index);
-      originalSkip(index);
-    };
-
-    // hook state save (from journey)
-    const originalUpdateState = this.journey.updateWorldState.bind(this.journey);
-    this.journey.updateWorldState = (index) => {
-      const state = this.journey.getStateByIndex(index);
-      this.storage.saveState(state);
-      originalUpdateState(index);
-    };
-  }
+function loadTrack(i){
+audio.src = tracks[i];
+audio.play();
+now.innerText = (i+1) + " — PLAYING";
+unlock(i);
+updateDawn(i);
 }
 
-/* =========================
-   BOOTSTRAP
-   ========================= */
+function unlock(i){
+let els = document.querySelectorAll(".track");
+if(els[i]) els[i].classList.remove("locked");
+}
 
-window.addEventListener("DOMContentLoaded", () => {
-  const app = new IoApp();
-  app.init();
-});
+function updateDawn(i){
+document.body.style.filter = `brightness(${0.6 + i*0.05})`;
+}
+
+playBtn.onclick = ()=>{
+audio.play();
+};
+
+skipBtn.onclick = ()=>{
+if(!confirm("The path remembers. Skip?")) return;
+index++;
+if(index < tracks.length){
+loadTrack(index);
+}
+};
+
+audio.onended = ()=>{
+index++;
+if(index < tracks.length){
+loadTrack(index);
+}
+};
+
+loadTrack(0);
