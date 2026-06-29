@@ -1,108 +1,94 @@
 /* =========================
-   BOOT v0.1 — STORAGE
-   Project DAWN
+   storage.js — Io First Light
+   Memory / persistence layer
    ========================= */
 
-const Storage = (() => {
+class IoStorage {
+  constructor() {
+    this.keys = {
+      index: "io_current_index",
+      completed: "io_completed_tracks",
+      skipped: "io_skipped_tracks",
+      state: "io_world_state"
+    };
+  }
 
-  const KEYS = {
-    JOURNEY: "dawn_journey",
-    PROGRESS: "dawn_progress",
-    SETTINGS: "dawn_settings"
-  };
+  /* =========================
+     INDEX (current position)
+     ========================= */
 
-  /* ===== INIT ===== */
+  saveIndex(index) {
+    localStorage.setItem(this.keys.index, String(index));
+  }
 
-  function init() {
-    if (!localStorage.getItem(KEYS.JOURNEY)) {
-      localStorage.setItem(KEYS.JOURNEY, JSON.stringify({
-        started: Date.now(),
-        visits: 1,
-        mythUnlocked: false
-      }));
-    } else {
-      const data = JSON.parse(localStorage.getItem(KEYS.JOURNEY));
-      data.visits += 1;
-      localStorage.setItem(KEYS.JOURNEY, JSON.stringify(data));
-    }
+  getIndex() {
+    const v = localStorage.getItem(this.keys.index);
+    return v === null ? 0 : Number(v);
+  }
 
-    if (!localStorage.getItem(KEYS.PROGRESS)) {
-      localStorage.setItem(KEYS.PROGRESS, JSON.stringify({
-        currentTrack: 1,
-        completedTracks: []
-      }));
-    }
+  /* =========================
+     COMPLETED TRACKS
+     ========================= */
 
-    if (!localStorage.getItem(KEYS.SETTINGS)) {
-      localStorage.setItem(KEYS.SETTINGS, JSON.stringify({
-        lang: "en"
-      }));
+  saveCompleted(index) {
+    const list = this.getCompleted();
+    if (!list.includes(index)) {
+      list.push(index);
+      localStorage.setItem(this.keys.completed, JSON.stringify(list));
     }
   }
 
-  /* ===== GETTERS ===== */
-
-  function getJourney() {
-    return JSON.parse(localStorage.getItem(KEYS.JOURNEY));
-  }
-
-  function getProgress() {
-    return JSON.parse(localStorage.getItem(KEYS.PROGRESS));
-  }
-
-  function getSettings() {
-    return JSON.parse(localStorage.getItem(KEYS.SETTINGS));
-  }
-
-  /* ===== PROGRESS ===== */
-
-  function completeTrack(id) {
-    const progress = getProgress();
-
-    if (!progress.completedTracks.includes(id)) {
-      progress.completedTracks.push(id);
+  getCompleted() {
+    const raw = localStorage.getItem(this.keys.completed);
+    if (!raw) return [];
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return [];
     }
-
-    progress.currentTrack = id + 1;
-
-    localStorage.setItem(KEYS.PROGRESS, JSON.stringify(progress));
   }
 
-  function isTrackUnlocked(id) {
-    const progress = getProgress();
-    return id <= progress.currentTrack;
+  /* =========================
+     SKIPPED TRACKS
+     ========================= */
+
+  saveSkipped(index) {
+    const list = this.getSkipped();
+    if (!list.includes(index)) {
+      list.push(index);
+      localStorage.setItem(this.keys.skipped, JSON.stringify(list));
+    }
   }
 
-  /* ===== MYTH ===== */
-
-  function unlockMyth() {
-    const journey = getJourney();
-    journey.mythUnlocked = true;
-    localStorage.setItem(KEYS.JOURNEY, JSON.stringify(journey));
+  getSkipped() {
+    const raw = localStorage.getItem(this.keys.skipped);
+    if (!raw) return [];
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return [];
+    }
   }
 
-  function isMythUnlocked() {
-    return getJourney().mythUnlocked;
+  /* =========================
+     WORLD STATE
+     ========================= */
+
+  saveState(state) {
+    localStorage.setItem(this.keys.state, state);
   }
 
-  /* ===== RESET (for dev) ===== */
-
-  function reset() {
-    localStorage.removeItem(KEYS.JOURNEY);
-    localStorage.removeItem(KEYS.PROGRESS);
-    localStorage.removeItem(KEYS.SETTINGS);
+  getState() {
+    return localStorage.getItem(this.keys.state) || "night";
   }
 
-  return {
-    init,
-    getJourney,
-    getProgress,
-    getSettings,
-    completeTrack,
-    isTrackUnlocked,
-    unlockMyth,
-    isMythUnlocked,
-    reset
-  };
+  /* =========================
+     RESET (for testing / rebirth)
+     ========================= */
 
-})();
+  reset() {
+    Object.values(this.keys).forEach((k) => localStorage.removeItem(k));
+  }
+}
+
+window.IoStorage = IoStorage;
