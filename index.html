@@ -1,108 +1,126 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>Io — Lo.Krain</title>
+  <title>Lo.Krain - Io</title>
 
-<link rel="stylesheet" href="css/theme.css">
-<link rel="stylesheet" href="css/animations.css">
-<link rel="stylesheet" href="css/main.css">
+  <link rel="icon" type="image/png" href="./favicon-32x32.png"/>
 
+  <link rel="stylesheet" href="./css/theme.css"/>
+  <link rel="stylesheet" href="./css/animations.css"/>
+  <link rel="stylesheet" href="./css/main.css"/>
+  <link rel="stylesheet" href="./css/responsive.css"/>
 </head>
 
-<body>
+<body class="state-night">
 
-<div class="page">
+  <!-- BACKGROUND -->
+  <div class="bg-layer bg-gradient"></div>
+  <div class="bg-layer bg-texture"></div>
+  <div class="bg-layer bg-light"></div>
 
-<!-- LANGUAGE -->
-<div class="lang-switch">
-    <span class="lang active">RU</span>
-    <span class="lang">EN</span>
-</div>
-
-<!-- HERO -->
-<section class="hero">
-
-    <h1>Io</h1>
-
-    <img class="cover" src="cover.jpeg">
-
-    <div class="artist">
-        <div class="artist-name">Lo.Krain</div>
-        <div class="artist-role">ARTIST</div>
-    </div>
-
-    <div class="meta">
-        <div>Release</div>
-        <div>21 June 2026</div>
-    </div>
-
-    <p class="intro">
-        Io is the final chapter of a 15-year journey through night to dawn.
-        Listen from beginning to end.
-        The path continues beyond the last track.
-    </p>
-
-</section>
-
-<hr>
-<!-- ALBUM IDENTITY -->
-<section class="album-identity">
-
-  <img class="album-cover" id="albumCover" src="./cover.jpeg" alt="Io Cover" />
-
-  <div class="album-meta">
-    <div class="artist-name">Lo.Krain</div>
-    <div class="album-name">Io</div>
-    <div class="album-date">21 June 2026</div>
+  <!-- MIRROR WORDS -->
+  <div class="mirror-layer">
+    <div class="mirror-word">IO</div>
+    <div class="mirror-word">PATH</div>
+    <div class="mirror-word">DAWN</div>
+    <div class="mirror-word">HOME</div>
   </div>
 
-</section>
-<!-- PLAYER -->
-<section class="player">
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <div class="project-title">Lo.Krain - Io</div>
+    <div class="state-indicator" id="stateIndicator">NIGHT</div>
+  </header>
 
-<div id="now">01 — ПУТЬ</div>
+  <!-- MAIN -->
+  <main class="journey-layout">
 
-<audio id="audio" src="01-put.mp3"></audio>
+    <!-- LEFT: PLAYLIST -->
+    <section class="journey-column journey-left">
+      <div class="playlist" id="playlist"></div>
+    </section>
 
-<div class="controls">
-    <button id="play">Play</button>
-    <button id="skip">Skip</button>
-</div>
+    <!-- RIGHT: CORE -->
+    <section class="journey-column journey-right">
 
-</section>
+      <!-- COVER + META -->
+      <div class="album-identity">
+        <img src="./cover.jpeg" class="album-cover" id="albumCover"/>
+        <div class="album-meta">
+          <div>Lo.Krain</div>
+          <div>Io</div>
+          <div>21.06.2026</div>
+        </div>
+      </div>
 
-<hr>
+      <!-- VISUAL -->
+      <div class="core-visual">
+        <div class="light-core"></div>
+        <div class="pulse-ring"></div>
+        <div class="cover-glow"></div>
+      </div>
 
-<!-- TRACKLIST -->
-<section id="tracks">
+      <!-- PLAYER -->
+      <div class="player">
+        <div class="player-controls">
+          <button id="playBtn" class="btn">PLAY</button>
+          <button id="pauseBtn" class="btn">PAUSE</button>
+          <button id="skipBtn" class="btn">SKIP</button>
+        </div>
 
-<div class="playlist" id="playlist"></div>
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
 
-</section>
+        <div class="progress-meta">
+          <span id="currentTime">00:00</span>
+          <span>/</span>
+          <span id="totalTime">00:00</span>
+        </div>
+      </div>
 
-</div>
+      <!-- META -->
+      <section class="meta-sections">
 
-<script src="js/app.js"></script>
+        <div class="meta about locked" id="aboutSection">
+          <h3>About</h3>
+          <p>•••</p>
+        </div>
+
+        <div class="meta lyrics locked" id="lyricsSection">
+          <h3>Lyrics</h3>
+          <p>•••</p>
+        </div>
+
+        <div class="meta communication locked" id="communicationSection">
+          <h3>Communication</h3>
+          <p>•••</p>
+        </div>
+
+      </section>
+
+    </section>
+  </main>
+
+  <!-- MYTH -->
+  <section class="myth-layer hidden" id="mythLayer">
+    <div class="myth-question">Go Deeper?</div>
+    <button class="btn" id="mythEnter">ENTER</button>
+  </section>
+
+  <!-- AUDIO -->
+  <audio id="audioEngine"></audio>
+
+  <!-- SCRIPTS -->
+  <script src="./js/storage.js"></script>
+  <script src="./js/translations.js"></script>
+  <script src="./js/player.js"></script>
+  <script src="./js/journey.js"></script>
+  <script src="./js/world.js"></script>
+  <script src="./js/app.js"></script>
 
 </body>
 </html>
-<section class="communication hidden" id="communication">
-
-  <form id="contactForm" class="contact-form">
-
-    <input type="text" name="name" placeholder="Name" required />
-    <textarea name="message" placeholder="Message" required></textarea>
-
-    <button type="submit">Send</button>
-
-  </form>
-
-</section>
-<section class="myth-layer hidden" id="mythLayer">
-  <div class="myth-title">Lo.Krain Myth</div>
-  <div class="myth-question">Go Deeper?</div>
-  <button class="btn myth-btn" id="mythEnter">ENTER</button>
-</section>
