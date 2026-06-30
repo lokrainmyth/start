@@ -2,8 +2,5 @@
 
 > The interface exists only to guide the journey.
 
-Current stage:
+15-year path through night to dawn ☼
 
-BOOT
-
-The path continues.
